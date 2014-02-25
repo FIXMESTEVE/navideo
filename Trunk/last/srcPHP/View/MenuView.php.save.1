@@ -1,0 +1,39 @@
+<?php
+include_once "MenuContextGuest.php";
+include_once "MenuContextDoctor.php";
+include_once "MenuContextAdministrator.php";
+
+class MenuView implements View{
+
+	var $javascriptPath = "";
+	var $context = NULL;
+
+	function MenuView($javaPath=""){
+		if(is_string($javaPath)){
+			$this->javascriptPath = $javaPath;
+			$this->context = new MenuContextGuest();
+		}
+		else
+			throw new Exception("ERREUR - Fonction Model(...) - Verifier les types des parametres");
+	}
+
+zad	function isLogged(){
+		if(isset($_POST) && isset($_POST["Login"]) && !empty($_POST["Login"]) && isset($_POST["Password"]) && !empty($_POST["Password"]))
+			$_SESSION["Authentification"] = array("Login" => $_POST["Login"], "Password" => $_POST["Password"]);
+		if(isset($_SESSION["Authentification"]) && isset($_SESSION["Authentification"]["Login"]) && isset($_SESSION["Authentification"]["Password"])){
+			// Recuperer les informations de l'utilisateur (docteur ou administrateur ou imposteur si aucun correspondance
+			// Modifier le context du menu selon les informations
+			ResearchModel::getDoctor($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]);
+//			$this->context = new MenuContextDoctor();
+//			$this->context = new MenuContextAdministrator();
+		}
+	}
+
+	function draw(){
+		echo "<div id=\"menu\">";
+		$this->isLogged();
+		$this->context->draw();
+		echo "</div>";
+	}
+}
+?>
