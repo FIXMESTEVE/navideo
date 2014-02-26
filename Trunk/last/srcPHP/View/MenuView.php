@@ -2,6 +2,7 @@
 include_once "MenuContextGuest.php";
 include_once "MenuContextDoctor.php";
 include_once "MenuContextAdministrator.php";
+include_once "srcPHP/Model/ResearchModel.php";
 
 class MenuView implements View{
 
@@ -21,10 +22,10 @@ class MenuView implements View{
 		if(isset($_POST) && isset($_POST["Login"]) && !empty($_POST["Login"]) && isset($_POST["Password"]) && !empty($_POST["Password"]))
 			$_SESSION["Authentification"] = array("Login" => $_POST["Login"], "Password" => $_POST["Password"]);
 		if(isset($_SESSION["Authentification"]) && isset($_SESSION["Authentification"]["Login"]) && isset($_SESSION["Authentification"]["Password"])){
-			// Recuperer les informations de l'utilisateur (docteur ou administrateur ou imposteur si aucun correspondance
-			// Modifier le context du menu selon les informations
-			
-//			$this->context = new MenuContextDoctor();
+			$tmp = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+			if( $res = $tmp->getDoctor($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]) )
+				$this->context = new MenuContextDoctor($res);
+
 //			$this->context = new MenuContextAdministrator();
 		}
 	}

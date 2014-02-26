@@ -38,16 +38,16 @@ class DatabaseManager{
 	}
 
 	function query($sql, $messageError="ERREUR - Fonction query(...) - Echec lors de l'interrogation de la base de donnees"){
-		$res;
+		$res = NULL;
 		try {
 			if(is_string($sql) && is_string($messageError)){
 				$this->connectDatabase();
 				$res = pg_query($this->connec, $sql);
 				if(!$res)
 					throw new Exception($messageError);
-		}
-		else
-			throw new Exception("ERREUR - Fonction Model(...) - Verifier les types des parametres");
+			}
+			else
+				throw new Exception("ERREUR - Fonction Model(...) - Verifier les types des parametres");
 		} catch(Exception $e){
 			echo $e->getMessage();
 		} finally {
