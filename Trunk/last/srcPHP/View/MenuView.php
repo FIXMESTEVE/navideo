@@ -31,7 +31,7 @@ class MenuView implements View{
 	}
 
 	function draw(){
-		echo "<div id=\"menu\">";
+		echo "<div class=\"menu\">";
 		$this->isLogged();
 		$this->context->draw();
 		echo "</div>";

@@ -8,8 +8,8 @@
 		<meta name="date" content="2013-02-17T14:00:00">
 		<meta name="robots" content="no-follow">
 		<meta name="robots" content="index">
-		<meta name="author" content="Xavier Jouvenot">
-		<link rel="stylesheet" type="text/css" href="css/menu.css">
+		<meta name="author" content="Xavier Jouvenot, Antoine Laumond, Romain Fontaine, Tom Solacroup">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
 	</head>
 	<body>
 		<?php

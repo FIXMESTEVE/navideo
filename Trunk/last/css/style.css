@@ -31,7 +31,7 @@
 	text-align : center;
 }
 
-.banner
+.menu
 {
 	background-image: url("bg3.jpg");
     background-attachment: scroll; 
@@ -44,6 +44,7 @@
 	height: 90px;
 	width: 1000px;
 	border: 1px solid black;
+	color: white;
 }
 
 body
