@@ -2,14 +2,17 @@
 
 include_once "Model/UploadModel.php";
 include_once "View/MenuView.php";
+include_once "View/VideoView.php";
 
 class Main{
 	var $model;
 	var $menu;
+	var $video;
 
 	function Main(){
 		$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
 		$this->menu = new MenuView();
+		$this->video = new VideoView();
 	}
 
 	function run(){
@@ -23,7 +26,11 @@ class Main{
 //		$this->model->addVideo(3,"monChemin2");
 
 		$this->menu->draw();
+		$this->video->draw();
+		
 	}
 }
+
+
 
 ?>
