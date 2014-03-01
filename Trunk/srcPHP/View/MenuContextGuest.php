@@ -12,6 +12,8 @@ class MenuContextGuest implements MenuContext{
 
 	function isLogged(){ return false; }
 
+	function disconnect(){ }
+
 	function draw(){
 		echo "<label>Bonjour Anonyme</label>";
 		$this->formConnection->draw();

@@ -8,6 +8,10 @@ class MenuContextAdministrator implements MenuContext{
 
 	function isLogged(){ return true; }
 
+	function disconnect(){
+		$_SESSION = array();
+	}
+
 	function draw(){
 		echo "<label>Bonjour Administreur</label>";
 	}
