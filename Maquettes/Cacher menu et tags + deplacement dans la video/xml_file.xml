@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<INFOS>
+	<ACTION>
+		<OBSERVATION>
+			Observation 1
+		</OBSERVATION>
+		<DEPART>
+			0
+		</DEPART>
+		<FIN>
+			60
+		</FIN>
+		<NOM>
+			trolldance
+		</NOM>
+		<PROBA>
+			1
+		</PROBA>
+	</ACTION>
+	<ACTION>
+		<OBSERVATION>
+			Observation 2
+		</OBSERVATION>
+		<DEPART>
+			60
+		</DEPART>
+		<FIN>
+			100
+		</FIN>
+		<NOM>
+			trolldance
+		</NOM>
+		<PROBA>
+			1
+		</PROBA>
+	</ACTION>
+	<ACTION>
+		<OBSERVATION>
+			Observation 3
+		</OBSERVATION>
+		<DEPART>
+			100
+		</DEPART>
+		<FIN>
+			162
+		</FIN>
+		<NOM>
+			trolldance
+		</NOM>
+		<PROBA>
+			1
+		</PROBA>
+	</ACTION>
+</INFOS>
