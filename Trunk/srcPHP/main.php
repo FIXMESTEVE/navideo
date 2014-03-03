@@ -3,21 +3,17 @@
 include_once "Model/UploadModel.php";
 include_once "View/MenuView.php";
 include_once "View/VideoView.php";
-include_once "View/UploadView.php";
-include_once "View/FormViewUpload.php";
 
 class Main{
 	var $model;
 	var $menu;
 	var $video;
-	var $upload;
 
 	function Main(){
 //		$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
 //		$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 		$this->menu = new MenuView();
 		$this->video = new VideoView();
-		$this->upload = new FormViewUpload("index.php");
 	}
 
 	function run(){
@@ -51,10 +47,10 @@ class Main{
 
 		$this->menu->draw();
 		$this->video->draw();
-		//$this->upload->draw();
 
 		echo "</body>";
 		echo "</html>";
+
 	}
 }
 

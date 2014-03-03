@@ -38,8 +38,8 @@ class MenuView implements View{
 			$tmp = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 			if( $res = $tmp->getDoctor($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]) )
 				$this->context = new MenuContextDoctor($res["id"], $res["name"]);
-
-//			$this->context = new MenuContextAdministrator();
+			else if( $res = $tmp->getAdministrator($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]) )
+				$this->context = new MenuContextAdministrator($res, $_SESSION["Authentification"]["Login"]);
 		}
 	}
 

@@ -1,0 +1,23 @@
+#menuAdmin{
+	background-image: url("bg3.jpg");
+	background-attachement: scroll;
+	background-position: top;
+	left:0.5%;
+	top: 0.5%;
+	display: block;
+	margin: 0 auto;
+	height: 100px;
+	width:100%;
+	float:left;
+	border: px solid black;
+	color: white;
+}
+
+#menuAdmin #welcome{
+	left: 0.5%;
+	font-weight: bold;		
+}
+
+#menuAdmin #deconnexion{
+	float: right;
+}
