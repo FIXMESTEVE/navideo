@@ -14,9 +14,15 @@ class MenuContextGuest implements MenuContext{
 
 	function disconnect(){ }
 
+	function linkCSS(){
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/menu_guest.css\" >";
+		$this->formConnection->linkCSS();
+	}
+
 	function draw(){
-		echo "<label>Bonjour Anonyme</label>";
+		echo "<div id=\"menuGuest\">";
 		$this->formConnection->draw();
+		echo "</div>";
 	}
 }
 

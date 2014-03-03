@@ -27,7 +27,7 @@ class TagMenuView implements View {
   function TagMenuView($video) {
     if(!is_numeric($video))
       throw new Exception("TagMenuView(...) - Vérifiez le type des paramètres");
-    
+
     $this->video = $video;
     $this->tags  = array();
   }
@@ -38,6 +38,8 @@ class TagMenuView implements View {
 
     $this->tags[] = $tag;
   }
+
+  function linkCSS(){ }
 
   function draw() {
     echo "<div class=\"TagMenuView\">";

@@ -12,14 +12,18 @@ class MenuView implements View{
 	function MenuView($javaPath=""){
 		if(is_string($javaPath)){
 			$this->javascriptPath = $javaPath;
-			$this->context = new MenuContextGuest();
+			$this->isLogged();
 		}
 		else
 			throw new Exception("ERREUR - Fonction Model(...) - Verifier les types des parametres");
 	}
 
 	function isLogged(){
-		// si l'on tente de seeconnecter
+		// connexion parefaut
+		if($this->context == NULL)
+			$this->context = new MenuContextGuest();
+
+		// si l'on tente de se connecter
 		if(isset($_GET["disconnect"])){
 			$this->context->disconnect();
 			$this->context = new MenuContextGuest();
@@ -33,17 +37,16 @@ class MenuView implements View{
 		if(isset($_SESSION["Authentification"]) && isset($_SESSION["Authentification"]["Login"]) && isset($_SESSION["Authentification"]["Password"])){
 			$tmp = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 			if( $res = $tmp->getDoctor($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]) )
-				$this->context = new MenuContextDoctor($res);
+				$this->context = new MenuContextDoctor($res["id"], $res["name"]);
 
 //			$this->context = new MenuContextAdministrator();
 		}
 	}
 
+	function linkCSS(){ $this->context->linkCSS(); }
+
 	function draw(){
-		echo "<div class=\"menu\">";
-		$this->isLogged();
 		$this->context->draw();
-		echo "</div>";
 	}
 }
 ?>

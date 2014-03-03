@@ -4,7 +4,7 @@
  *
  * Long description for file (if any)...
  *
- * @author     
+ * @author
  * @copyright  2014
  */
 
@@ -27,7 +27,7 @@ class TagView implements View {
   private $observation;
   private $start;
   private $end;
-  
+
   function TagView($id, $video, $title, $observation, $start, $end) {
     if(!is_numeric($id) || !is_numeric($video) || !is_string($title) || !is_string($observation) || !is_string($start) || !is_string($end))
       throw new Exception("TagView(...) - Vérifiez le type des paramètres");
@@ -43,6 +43,8 @@ class TagView implements View {
   function getObservation() {
     return $this->observation;
   }
+
+  function linkCSS(){ }
 
   function draw() {
     echo "<tr class=\"TagView $this->id $this->video\">";
