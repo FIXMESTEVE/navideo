@@ -29,9 +29,17 @@ class MenuContextDoctor implements MenuContext{
 	static function linkJavascript(){ echo ""; }
 
 	function draw(){
+<<<<<<< HEAD
 		echo "<div id=\"menuDoctor\">";
 		echo "<label id=\"welcome\" >Bonjour ".$this->name."</label>";
 		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
+=======
+		echo "<label>Bonjour ".$this->name."</label>";
+		echo "<a href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
+
+		echo "<div class='patientList'>";
+		echo "<label>Bonjour!</label>";
+>>>>>>> Ajout de FormViewUpload (pas encore implémenté)
 		echo "</div>";
 	}
 }
