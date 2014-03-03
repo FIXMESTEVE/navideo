@@ -24,6 +24,10 @@ class MenuContextDoctor implements MenuContext{
 	function draw(){
 		echo "<label>Bonjour ".$this->name."</label>";
 		echo "<a href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
+
+		echo "<div class='patientList'>";
+		echo "<label>Bonjour!</label>";
+		echo "</div>";
 	}
 }
 
