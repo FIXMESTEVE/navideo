@@ -41,7 +41,10 @@ class MenuContextDoctor implements MenuContext{
 		echo "</div>";
 
 		echo "<div id=\"patientsList\">";
-
+		echo "<label>Vos patients</label>"
+		echo "<ul type=none>"; 
+		//TODO: cycle through the patients and add them
+		echo "</ul>";
 		echo "</div>";
 	}
 }
