@@ -18,6 +18,20 @@
 	font-weight: bold;		
 }
 
+#menuDoctor #patientsList{
+	float: left;
+}
+
+#menuDoctor #patientsList #label{
+	left: 0.5%;
+	font-weight: bold;		
+	color: white;	
+}
+
+#menuDoctor #patientsList #ul{
+	overflow:scroll;
+}
+
 #menuDoctor #deconnexion{
 	float: right;
 }
