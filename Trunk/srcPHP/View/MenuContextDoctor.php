@@ -33,6 +33,10 @@ class MenuContextDoctor implements MenuContext{
 		echo "<label id=\"welcome\" >Bonjour ".$this->name."</label>";
 		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
 		echo "</div>";
+
+		echo "<div id=\"patientsList\">";
+
+		echo "</div>";
 	}
 }
 
