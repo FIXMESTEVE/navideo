@@ -12,6 +12,8 @@ class MenuContextAdministrator implements MenuContext{
 		$_SESSION = array();
 	}
 
+	function linkCSS(){ }
+
 	function draw(){
 		echo "<label>Bonjour Administreur</label>";
 	}

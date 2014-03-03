@@ -3,15 +3,18 @@ include_once "MenuContext.php";
 
 class MenuContextDoctor implements MenuContext{
 	var $name = "";
+	var $id = -1;
 
-	function MenuContextDoctor($name){
+	function MenuContextDoctor($id, $name){
 		try{
-			if(is_string($name))
+			if(is_numeric($id) && is_string($name)){
+				$this->id = $id;
 				$this->name = $name;
+			}
 			else
 				throw new Exception("ERREUR - Fonction MenuContextDoctor(...) - Verifier les types des parametres");
 		}catch(Exception $e){
-			echo $e;
+			echo $e->getMessage();
 		}
 	}
 
@@ -21,12 +24,19 @@ class MenuContextDoctor implements MenuContext{
 		$_SESSION = array();
 	}
 
-	function draw(){
-		echo "<label>Bonjour ".$this->name."</label>";
-		echo "<a href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
+	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/menu_doctor.css\">"; }
 
-		echo "<div class='patientList'>";
+	static function linkJavascript(){ echo ""; }
+
+	function draw(){
+		echo "<div id=\"menuDoctor\">";
+		echo "<label id=\"welcome\" >Bonjour ".$this->name."</label>";
+		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
+
+		echo "<div id='patientList'>";
 		echo "<label>Bonjour!</label>";
+		echo "</div>"
+
 		echo "</div>";
 	}
 }
