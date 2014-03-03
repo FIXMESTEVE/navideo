@@ -3,17 +3,34 @@
 include_once "Model/UploadModel.php";
 include_once "View/MenuView.php";
 include_once "View/VideoView.php";
+include_once "View/FormViewAddDoctor.php";
 
 class Main{
 	var $model;
 	var $menu;
-	var $video;
+	var $form;
 
 	function Main(){
-//		$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
+		$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
 //		$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 		$this->menu = new MenuView();
-		$this->video = new VideoView();
+		if(isset($_GET) && isset($_GET["form"]) && $_GET["form"]==="add_doctor"){
+			$this->form = new FormViewAddDoctor("index.php?execute=add_doctor");
+		}
+		else
+			$this->form = new VideoView();
+			$this->executeForm();
+
+	}
+
+	function executeForm(){
+		if(isset($_GET) && isset($_GET["execute"]) && $_GET["execute"]==="add_doctor"){
+			echo "1";
+			if(isset($_POST) && isset($_POST["Name"]) && !empty($_POST["Name"]) && isset($_POST["Login"]) && !empty($_POST["Login"]) && isset($_POST["Password"]) && !empty($_POST["Password"]) ){
+				echo "2";
+				$this->model->addDoctor($_POST["Name"], $_POST["Login"], $_POST["Password"]);
+			}
+		}
 	}
 
 	function run(){
@@ -39,14 +56,15 @@ class Main{
 		echo "<title>Projet De Programmation</title>";
 
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/body.css\">";
+
 		$this->menu->linkCSS();
-		$this->video->linkCSS();
+		$this->form->linkCSS();
 
 		echo "</head>";
 		echo "<body>";
 
 		$this->menu->draw();
-		$this->video->draw();
+		$this->form->draw();
 
 		echo "</body>";
 		echo "</html>";
