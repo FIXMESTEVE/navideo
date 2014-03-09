@@ -2,35 +2,32 @@
 
 include_once "Model/UploadModel.php";
 include_once "View/MenuView.php";
-include_once "View/VideoView.php";
-include_once "View/FormViewAddDoctor.php";
+//include_once "View/VideoView.php";
+//include_once "View/FormViewAddDoctor.php";
+include_once "View/SectionView.php";
 
 class Main{
 	var $model;
 	var $menu;
-	var $form;
+	var $section;
 
 	function Main(){
-		$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
-//		$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
-		$this->menu = new MenuView();
-		if(isset($_GET) && isset($_GET["form"]) && $_GET["form"]==="add_doctor"){
-			$this->form = new FormViewAddDoctor("index.php?execute=add_doctor");
-		}
-		else
-			$this->form = new VideoView();
+		try{
+			$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
+//			$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+			$this->menu = new MenuView();
+			$this->section = new SectionView();
 			$this->executeForm();
+		} catch(Exception $e){
+			echo $e->getMessage();
+		}
 
 	}
 
 	function executeForm(){
-		if(isset($_GET) && isset($_GET["execute"]) && $_GET["execute"]==="add_doctor"){
-			echo "1";
-			if(isset($_POST) && isset($_POST["Name"]) && !empty($_POST["Name"]) && isset($_POST["Login"]) && !empty($_POST["Login"]) && isset($_POST["Password"]) && !empty($_POST["Password"]) ){
-				echo "2";
-				$this->model->addDoctor($_POST["Name"], $_POST["Login"], $_POST["Password"]);
-			}
-		}
+//		if(isset($_GET) && isset($_GET["execute"]) && $_GET["execute"]==="add_doctor")
+//			if(isset($_POST) && isset($_POST["Name"]) && !empty($_POST["Name"]) && isset($_POST["Login"]) && !empty($_POST["Login"]) && isset($_POST["Password"]) && !empty($_POST["Password"]) )
+//				$this->model->addDoctor($_POST["Name"], $_POST["Login"], $_POST["Password"]);
 	}
 
 	function run(){
@@ -58,13 +55,13 @@ class Main{
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/body.css\">";
 
 		$this->menu->linkCSS();
-		$this->form->linkCSS();
+		$this->section->linkCSS();
 
 		echo "</head>";
 		echo "<body>";
 
 		$this->menu->draw();
-		$this->form->draw();
+		$this->section->draw();
 
 		echo "</body>";
 		echo "</html>";

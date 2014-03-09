@@ -12,6 +12,8 @@ abstract class FormView implements View{
 			throw new Exception("ERREUR - FormView(...) - Verifier les types des parametres");
 	}
 
+	abstract function execute();
+
 	abstract function linkCSS();
 
 	abstract function draw();

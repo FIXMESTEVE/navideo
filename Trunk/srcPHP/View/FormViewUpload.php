@@ -6,6 +6,10 @@ class FormViewUpload extends FormView{
 		parent::FormView($action);
 	}
 
+	function execute(){
+
+	}
+
 	function draw(){
 		echo "<div class=\"frame2\">";
 		echo "<form id=\"upload\" action=\"".$this->action."\" method=\"post\">";

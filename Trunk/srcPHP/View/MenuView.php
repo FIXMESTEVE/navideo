@@ -15,7 +15,7 @@ class MenuView implements View{
 			$this->isLogged();
 		}
 		else
-			throw new Exception("ERREUR - Fonction Model(...) - Verifier les types des parametres");
+			throw new Exception("ERREUR - Fonction SectionModel(...) - Verifier les types des parametres");
 	}
 
 	function isLogged(){
