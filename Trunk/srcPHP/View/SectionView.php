@@ -1,6 +1,6 @@
 <?php
 include_once "FormViewAddDoctor.php";
-include_once "VideoView.php";
+include_once "PlayerView.php";
 
 class SectionView implements View{
 
@@ -24,7 +24,7 @@ class SectionView implements View{
 			$this->context->execute();
 		}
 		else
-			$this->context = new VideoView();
+			$this->context = new PlayerView();
 	}
 
 	function linkCSS(){ $this->context->linkCSS(); }

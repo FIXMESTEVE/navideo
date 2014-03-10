@@ -4,12 +4,14 @@ include_once "Model/UploadModel.php";
 include_once "View/MenuView.php";
 //include_once "View/VideoView.php";
 //include_once "View/FormViewAddDoctor.php";
+include_once "View/TagMenuView.php";
 include_once "View/SectionView.php";
 
 class Main{
 	var $model;
 	var $menu;
 	var $section;
+//	var $tags;
 
 	function Main(){
 		try{
@@ -17,17 +19,11 @@ class Main{
 //			$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 			$this->menu = new MenuView();
 			$this->section = new SectionView();
-			$this->executeForm();
+//			$this->tags = new TagMenuView();
 		} catch(Exception $e){
 			echo $e->getMessage();
 		}
 
-	}
-
-	function executeForm(){
-//		if(isset($_GET) && isset($_GET["execute"]) && $_GET["execute"]==="add_doctor")
-//			if(isset($_POST) && isset($_POST["Name"]) && !empty($_POST["Name"]) && isset($_POST["Login"]) && !empty($_POST["Login"]) && isset($_POST["Password"]) && !empty($_POST["Password"]) )
-//				$this->model->addDoctor($_POST["Name"], $_POST["Login"], $_POST["Password"]);
 	}
 
 	function run(){
@@ -56,18 +52,19 @@ class Main{
 
 		$this->menu->linkCSS();
 		$this->section->linkCSS();
+//		$this->tags->linkCSS();
 
 		echo "</head>";
 		echo "<body>";
 
 		$this->menu->draw();
 		$this->section->draw();
+//		$this->tags->draw();
 
 		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
-		
+
 		echo "</body>";
 		echo "</html>";
-			
 	}
 }
 

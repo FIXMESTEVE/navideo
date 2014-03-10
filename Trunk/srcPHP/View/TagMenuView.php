@@ -4,10 +4,12 @@
  *
  * Long description for file (if any)...
  *
- * @author     
+ * @author
  * @copyright  2014
  */
 
+include_once "srcPHP/Model/ResearchModel.php";
+include_once "TagView.php";
 include_once "View.php";
 
 /**
@@ -18,37 +20,36 @@ include_once "View.php";
  */
 class TagMenuView implements View {
 
-  /* Identification */
-  private $video;
+	var $model = NULL;
+	var $tags = NULL;
 
-  /* Data */
-  private $tags;
+	function TagMenuView($id_video=8) {
+		try{
+			if(!is_numeric($id_video))
+				throw new Exception("TagMenuView(...) - Vérifiez le type des paramètres");
 
-  function TagMenuView($video) {
-    if(!is_numeric($video))
-      throw new Exception("TagMenuView(...) - Vérifiez le type des paramètres");
+			$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+			$this->tags  = array();
 
-    $this->video = $video;
-    $this->tags  = array();
-  }
+			/* Initialisation of list of tags */
+			$tmp = $this->model->getListMetadata($id_video);
+			for($i=0; $i<count($tmp); $i++)
+				array_push($this->tags, new TagView($tmp[$i]["Id"], $tmp[$i]["Title"], $tmp[$i]["Observation"], $tmp[$i]["Start"], $tmp[$i]["End"]));
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
 
-  function appendTag($tag) {
-    if(!($tag instanceof TagView))
-      throw new Exception("TagMenuView::appendTag(...) - Vérifiez le type des paramètres");
+	function linkCSS(){ }
 
-    $this->tags[] = $tag;
-  }
-
-  function linkCSS(){ }
-
-  function draw() {
-    echo "<div class=\"TagMenuView\">";
-    echo "<table>";
-    foreach($this->tags as $tag)
-      $tag->draw();
-    echo "</table>";
-    echo "</div>";
-  }
+	function draw() {
+		echo "<div class=\"TagMenuView\">";
+		echo "<ul type=none>";
+		for($i=0; $i<count($this->tags); $i++)
+			$this->tags[$i]->draw();
+		echo "</ul>";
+		echo "</div>";
+	}
 
 }
 ?>

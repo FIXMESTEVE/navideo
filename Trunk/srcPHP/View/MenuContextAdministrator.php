@@ -33,11 +33,13 @@ class MenuContextAdministrator implements MenuContext{
 	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/menu_admin.css\">"; }
 
 	function draw(){
-		echo "<div id=\"menuAdmin\">";
+		echo "<header>";
 		echo "<label id=\"welcome\">Bonjour ".$this->name."</label>";
-		echo "<a href=\"index.php?form=add_doctor\"><label>Ajouter un Docteur</label></a>";
 		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
-		echo "</div>";
+		echo "</header>";
+		echo "<nav>";
+		echo "<a href=\"index.php?form=add_doctor\"><label>Ajouter un Docteur</label></a>";
+		echo "</nav>";
 	}
 }
 

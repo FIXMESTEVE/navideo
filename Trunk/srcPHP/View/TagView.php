@@ -16,43 +16,38 @@ include_once "View.php";
  * Long description for class (if any)...
  *
  */
-class TagView implements View {
+class TagView implements View{
 
-  /* Identification */
-  private $id;
-  private $video;
+	/* Identification */
+	var $id;
 
-  /* Data */
-  private $title;
-  private $observation;
-  private $start;
-  private $end;
+	/* Data */
+	var $title;
+	var $observation;
+	var $start;
+	var $end;
 
-  function TagView($id, $video, $title, $observation, $start, $end) {
-    if(!is_numeric($id) || !is_numeric($video) || !is_string($title) || !is_string($observation) || !is_string($start) || !is_string($end))
-      throw new Exception("TagView(...) - Vérifiez le type des paramètres");
+	function TagView($id, $title, $observation, $start, $end){
+		try{
+			if(is_numeric($id) && is_string($title) && is_string($observation) && is_string($start) && is_string($end)){
+				$this->id = $id;
+				$this->title = $title;
+				$this->observation = $observation;
+				$this->start = $start;
+				$this->end  = $end;
+			}
+			else
+				throw new Exception("ERREUR - TagView(...) - Verifier les types des parametres");
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
 
-    $this->id    = $id;
-    $this->video = $video;
-    $this->title = $title;
-    $this->observation = $observation;
-    $this->start = $start;
-    $this->end   = $end;
-  }
+	function linkCSS(){ }
 
-  function getObservation() {
-    return $this->observation;
-  }
-
-  function linkCSS(){ }
-
-  function draw() {
-    echo "<tr class=\"TagView $this->id $this->video\">";
-    echo "<td class=\"title\">$this->title</td>";
-    echo "<td class=\"start\">$this->start</td>";
-    echo "<td class=\"end\">$this->end</td>";
-    echo "</tr>";
-  }
+	function draw(){
+		echo "<li>".$this->observation."</li>";
+	}
 
 }
 ?>

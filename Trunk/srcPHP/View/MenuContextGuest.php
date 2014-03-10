@@ -20,9 +20,9 @@ class MenuContextGuest implements MenuContext{
 	}
 
 	function draw(){
-		echo "<div id=\"menuGuest\">";
+		echo "<header>";
 		$this->formConnection->draw();
-		echo "</div>";
+		echo "</header>";
 	}
 }
 

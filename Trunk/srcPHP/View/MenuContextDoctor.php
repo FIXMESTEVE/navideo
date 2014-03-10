@@ -35,10 +35,10 @@ class MenuContextDoctor implements MenuContext{
 	static function linkJavascript(){ echo ""; }
 
 	function draw(){
-		echo "<div id=\"menuDoctor\">";
+		echo "<header>";
 		echo "<label id=\"welcome\" >Bonjour ".$this->name."</label>";
 		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
-		echo "</div>";
+		echo "</header>";
 
 		echo "<div id=\"patientsList\">";
 		echo "<label>Vos patients</label>";

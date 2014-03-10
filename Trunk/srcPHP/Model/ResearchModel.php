@@ -61,6 +61,26 @@ class ResearchModel extends Model{
 			return NULL;
 		}
 	}
+
+	function getListMetadata($id_video){
+		try{
+			if(is_numeric($id_video)){
+				$res = $this->executeSQL("SELECT \"idMetadata\", \"title\", \"observation\", \"start\", \"end\" FROM \"public\".\"Metadata\" WHERE \"idVideo\" = ".$id_video.";");
+				if(pg_num_rows($res) > 0){
+					$tmp = array();
+					while($row = pg_fetch_row($res))
+						array_push($tmp, array("Id" => $row[0], "Title" => $row[1], "Observation" => $row[2], "Start" => $row[3], "End" => $row[4]));
+					return $tmp;
+				}
+				else
+					throw new Exception("ERREUR - Fonction getListMetadata(...) - Aucune donnees liees a cette Video");
+			}
+			else
+				throw new Exception("ERREUR - Fonction getListMetadata(...) - Verifier les types des parametres");
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
 }
 
 ?>
