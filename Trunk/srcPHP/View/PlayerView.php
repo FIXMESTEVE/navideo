@@ -12,7 +12,11 @@ class PlayerView implements View{
 		$this->tags = new TagMenuView();
 	}
 
-	function linkCSS(){ }
+	function linkCSS(){
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/player.css\">";
+		$this->video->linkCSS();
+		$this->tags->linkCSS();
+	}
 
 	function draw(){
 		echo "<section id=\"player\">";

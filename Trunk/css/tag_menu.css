@@ -1,0 +1,17 @@
+#TagMenuView{
+	width : 30%;
+	height : 100%;
+	float : left;
+	border-style : solid;
+	border-width : 1px;
+}
+
+#TagMenuView ul{
+	overflow : scroll;
+	overflow-x : hidden;
+	text-align : center;
+	width : auto;
+	height : 100%;
+	margin : 0px;
+	padding : 0px;
+}

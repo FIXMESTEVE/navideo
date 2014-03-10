@@ -1,0 +1,12 @@
+#player
+{
+	background-image: url("bg1.jpg");
+	background-attachment: scroll; 
+	background-position: top;
+	width: 100%;
+	margin-left: 0.5%;
+	border: 1px solid black;
+	float:left;
+	text-align : center;
+	padding : 0.5%; 
+}

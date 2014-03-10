@@ -1,4 +1,4 @@
-#menuDoctor{
+header{
 	background-image: url("bg3.jpg");
 	background-attachement: scroll;
 	background-position: top;
@@ -6,32 +6,32 @@
 	top: 0.5%;
 	display: block;
 	margin: 0 auto;
-	height: 100px;
+	height: auto;
 	width:100%;
 	float:left;
 	border: px solid black;
 	color: white;
 }
 
-#menuDoctor #welcome{
+header #welcome{
 	left: 0.5%;
 	font-weight: bold;		
 }
 
-#menuDoctor #patientsList{
+header #deconnexion{
+	float: right;
+}
+
+#patientsList{
 	float: left;
 }
 
-#menuDoctor #patientsList #label{
+#patientsList #label{
 	left: 0.5%;
 	font-weight: bold;		
 	color: white;	
 }
 
-#menuDoctor #patientsList #ul{
+#patientsList #ul{
 	overflow:scroll;
-}
-
-#menuDoctor #deconnexion{
-	float: right;
 }

@@ -43,10 +43,10 @@ class TagView implements View{
 		}
 	}
 
-	function linkCSS(){ }
+	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/tag.css\" >"; }
 
 	function draw(){
-		echo "<li>".$this->observation."</li>";
+		echo "<li class=\"tag\">".$this->observation."</li>";
 	}
 
 }

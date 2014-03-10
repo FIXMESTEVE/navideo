@@ -23,7 +23,7 @@ class TagMenuView implements View {
 	var $model = NULL;
 	var $tags = NULL;
 
-	function TagMenuView($id_video=8) {
+	function TagMenuView($id_video=10) {
 		try{
 			if(!is_numeric($id_video))
 				throw new Exception("TagMenuView(...) - Vérifiez le type des paramètres");
@@ -40,15 +40,18 @@ class TagMenuView implements View {
 		}
 	}
 
-	function linkCSS(){ }
+	function linkCSS(){
+		echo "<link rel=\"stylesheet\" type=\"test/css\" href=\"css/tag_menu.css\">";
+		$this->tags[0]->linkCSS();
+	}
 
 	function draw() {
-		echo "<div class=\"TagMenuView\">";
+		echo "<section id=\"TagMenuView\">";
 		echo "<ul type=none>";
 		for($i=0; $i<count($this->tags); $i++)
 			$this->tags[$i]->draw();
 		echo "</ul>";
-		echo "</div>";
+		echo "</section>";
 	}
 
 }
