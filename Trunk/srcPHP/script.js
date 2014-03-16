@@ -25,9 +25,10 @@ function anchorTag(button){
 	var player = document.getElementById("myvideo");
 	var srcPlayer = player.currentSrc;
 	
-	//sameVideoAnchor(srcPlayer);
+	sameVideoAnchor(srcPlayer);
 	if(boolAnchor == 0){
 		posA = player.currentTime;
+		document.getElementById("newTagTest").innerHTML = "Ancre A = " + posA + " & Ancre B = null.";
 		boolAnchor = 1;
 		}
 	else{
