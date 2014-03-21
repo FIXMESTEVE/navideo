@@ -1,9 +1,12 @@
 #TagMenuView{
 	width : 30%;
-	height : 100%;
+	height : auto;
 	float : left;
 	border-style : solid;
 	border-width : 1px;
+	margin-left : 0.5%;
+	margin-right : 0px;
+	padding : 0px;
 }
 
 #TagMenuView ul{

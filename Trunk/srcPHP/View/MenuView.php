@@ -35,6 +35,8 @@ class MenuView implements View{
 				$this->context = new MenuContextDoctor($res["id"], $res["name"]);
 			else if( $res = $tmp->getAdministrator($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]) )
 				$this->context = new MenuContextAdministrator($res, $_SESSION["Authentification"]["Login"]);
+			else
+				$_SESSION = array();
 
 			// si l'on tente de se connecter
 			if(isset($_GET["disconnect"]) && !empty($_GET["disconnect"])){
@@ -45,6 +47,10 @@ class MenuView implements View{
 	}
 
 	function linkCSS(){ $this->context->linkCSS(); }
+
+	function linkJS(){ }
+
+	function onLoadJS(){ return ""; }
 
 	function draw(){
 		$this->context->draw();

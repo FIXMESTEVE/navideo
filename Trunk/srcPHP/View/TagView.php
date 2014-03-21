@@ -33,7 +33,7 @@ class TagView implements View{
 				$this->id = $id;
 				$this->title = $title;
 				$this->observation = $observation;
-				$this->start = $start;
+				$this->start = $this->timeToNbSeconds($start);
 				$this->end  = $end;
 			}
 			else
@@ -43,10 +43,30 @@ class TagView implements View{
 		}
 	}
 
+	function timeToNbSeconds($time){
+		try{
+			if(is_string($time)){
+				$tmp = explode(":",$time);
+				if(count($tmp) == 3 && is_numeric($tmp[0]) && is_numeric($tmp[1]) && is_numeric($tmp[2]))
+					return $tmp[2]+60*$tmp[1]+360*$tmp[0];
+				else
+					throw new Exception("ERREUR - Fonction timeToNbSeconds(...) - Verifier la structure du parametre \"**:**:**\"");
+			}
+			else
+				throw new Exception("ERREUR - Fonction timeToNbSeconds(...) - Verifier les types des parametres");
+		} catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
 	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/tag.css\" >"; }
 
+	function linkJS(){ echo "<script src=\"js/tag.js\"></script>"; }
+
+	function onLoadJS(){ return ""; }
+
 	function draw(){
-		echo "<li class=\"tag\">".$this->observation."</li>";
+		echo "<li class=\"tag\" onclick=\"onClickTag(".$this->start.");\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\" >".$this->observation."</li>";
 	}
 
 }

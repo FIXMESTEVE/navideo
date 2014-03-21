@@ -1,36 +1,37 @@
 <?php
-include_once "FormViewAddDoctor.php";
-include_once "PlayerView.php";
+include_once "srcPHP/Model/ResearchModel.php";
+include_once "SectionDoctorView.php";
+include_once "SectionAdministratorView.php";
+include_once "SectionGuestView.php";
+include_once "InterfaceSectionView.php";
 
-class SectionView implements View{
+class SectionView implements InterfaceSectionView{
 
-	var $javascriptPath = "";
 	var $context = NULL;
 
-	function SectionView($javaPath=""){
-		if(is_string($javaPath)){
-			$this->javascriptPath = $javaPath;
-			$this->setContext();
-		}
-		else
-			throw new Exception("ERREUR - Fonction SectionView(...) - Verifier les types des parametres");
+	function SectionView(){
+		$this->setContext();
 	}
 
 	function setContext(){
-		if(isset($_GET) && isset($_GET["form"])){
-			if($_GET["form"] === "add_doctor")
-				$this->context = new FormViewAddDoctor("index.php");
-
-			$this->context->execute();
+		if(isset($_SESSION) && isset($_SESSION["Authentification"]) && isset($_SESSION["Authentification"]["Login"]) && isset($_SESSION["Authentification"]["Password"])){
+			$tmp = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+			if($res = $tmp->getDoctor($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]))
+				$this->context = new SectionDoctorView($res["id"]);
+			else if($res = $tmp->getAdministrator($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]))
+				$this->context = new SectionAdministratorView();
 		}
-		else
-			$this->context = new PlayerView();
+		else{
+			$this->context = new SectionGuestView();
+		}
 	}
 
 	function linkCSS(){ $this->context->linkCSS(); }
 
-	function draw(){
-		$this->context->draw();
-	}
+	function linkJS(){ $this->context->linkJS(); }
+
+	function onLoadJS(){ return $this->context->onLoadJS(); }
+
+	function draw(){ $this->context->draw(); }
 }
 ?>

@@ -1,0 +1,32 @@
+#ListOfPatients{
+	background-image : url("bg1.jpg");
+	background-attachment : scroll;
+	background-position : top;
+	width : 20%;
+	float : left;
+	padding : 0.5%;
+}
+
+#ListOfPatients label{
+	text-align : center;
+	width : 100%;
+	font-weight : bold;
+}
+
+#ListOfPatients #PatientList{
+	overflow : scroll;
+	overflow-x : hidden;
+	text-align : center;
+	width : auto;
+	margin : 0px;
+	padding : 0px;
+	border-style : solid;
+	border-width : 1px;
+}
+
+#ListOfPatients #PatientList li{
+	padding-top : 1em;
+	padding-bottom : 1em;
+	border-style : solid;
+	border-width : 1px;
+}

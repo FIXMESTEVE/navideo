@@ -8,6 +8,10 @@ class FormViewConnection extends FormView{
 
 	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/connexion.css\">"; }
 
+	function linkJS(){ }
+
+	function onLoadJS(){ return ""; }
+
 	function execute(){
 
 	}

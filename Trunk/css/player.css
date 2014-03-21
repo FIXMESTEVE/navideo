@@ -3,10 +3,11 @@
 	background-image: url("bg1.jpg");
 	background-attachment: scroll; 
 	background-position: top;
-	width: 100%;
+	width: 99%;
 	margin-left: 0.5%;
+	margin-right: 0.5%;
 	border: 1px solid black;
-	float:left;
+	float : left;
 	text-align : center;
 	padding : 0.5%; 
 }

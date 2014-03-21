@@ -48,7 +48,28 @@ class ResearchModel extends Model{
 				if(pg_num_rows($res) > 0){
 					$tmp = array();
 					while($row = pg_fetch_row($res))
-						array_push($tmp, $row[0]);
+						array_push($tmp, array("Id" => $row[0], "Name" => $row[1]));
+					return $tmp;
+				}
+				else
+					throw new Exception ("ERREUR - Fonction getDoctor(...) - Aucun Patient lies a ce Docteur");
+			}
+			else
+				throw new Exception("ERREUR - Fonction getListOfPatient(...) - Verifier les types des parametres");
+		} catch(Exception $e){
+			echo $e->getMessage();
+			return NULL;
+		}
+	}
+
+	function getListOfNotPatients($id_doctor){
+		try{
+			if(is_numeric($id_doctor)){
+				$res = $this->executeSQL("SELECT \"idPatient\", \"name\" FROM \"public\".\"Patient\" EXCEPT SELECT \"idPatient\", \"name\" FROM \"public\".\"Patient\" WHERE \"idDoctor\" = ".$id_doctor.";");
+				if(pg_num_rows($res) > 0){
+					$tmp = array();
+					while($row = pg_fetch_row($res))
+						array_push($tmp, array("Id" => $row[0], "Name" => $row[1]));
 					return $tmp;
 				}
 				else
@@ -77,6 +98,28 @@ class ResearchModel extends Model{
 			}
 			else
 				throw new Exception("ERREUR - Fonction getListMetadata(...) - Verifier les types des parametres");
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
+	function getVideosPatient($id_patient){
+		try{
+			if(is_numeric($id_patient)){
+				$res = $this->executeSQL("SELECT \"idVideo\", \"filename\", \"title\" FROM \"public\".\"Video\" WHERE \"idPatient\" = ".$id_patient.";");
+				if(pg_num_rows($res) > 0){
+					$tmp = array();
+					while($row = pg_fetch_row($res))
+						array_push($tmp, array("Id" => $row[0], "Filename" => $row[1], "Title" => $row[2]));
+					return $tmp;
+				}
+				else{
+					return array();
+//					throw new Exception("ERREUR - Fonction getVideosPatient(...) - Aucune video liee a ce Patient");
+				}
+			}
+			else
+				throw new Exception("ERREUR - Fonction getVideosPatient(...) - Verifier les types des parametres");
 		}catch(Exception $e){
 			echo $e->getMessage();
 		}

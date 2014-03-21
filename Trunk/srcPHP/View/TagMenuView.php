@@ -45,6 +45,10 @@ class TagMenuView implements View {
 		$this->tags[0]->linkCSS();
 	}
 
+	function linkJS(){ $this->tags[0]->linkJS(); }
+
+	function onLoadJS(){ return ""; }
+
 	function draw() {
 		echo "<section id=\"TagMenuView\">";
 		echo "<ul type=none>";

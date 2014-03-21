@@ -13,6 +13,10 @@ class FormViewAddDoctor extends FormView{
 
 	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/add_doctor.css\">"; }
 
+	function linkJS(){ }
+
+	function onLoadJS(){ return ""; }
+
 	function execute(){
 		if(isset($_GET) && isset($_GET["execute"]) && $_GET["execute"] === "true")
 			if(isset($_POST) && isset($_POST["NameDoctor"]) && !empty($_POST["NameDoctor"]) && isset($_POST["LoginDoctor"]) && !empty($_POST["LoginDoctor"]) && isset($_POST["PasswordDoctor"]) && !empty($_POST["PasswordDoctor"]))

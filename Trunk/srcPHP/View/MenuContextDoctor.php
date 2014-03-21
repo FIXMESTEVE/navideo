@@ -32,20 +32,18 @@ class MenuContextDoctor implements MenuContext{
 
 	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/menu_doctor.css\">"; }
 
-	static function linkJavascript(){ echo ""; }
+	function linkJS(){ }
+
+	function onLoadJS(){ return ""; }
 
 	function draw(){
 		echo "<header>";
 		echo "<label id=\"welcome\" >Bonjour ".$this->name."</label>";
 		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
 		echo "</header>";
-
-		echo "<div id=\"patientsList\">";
-		echo "<label>Vos patients</label>";
-		echo "<ul type=none>";
-		//TODO: cycle through the patients and add them
-		echo "</ul>";
-		echo "</div>";
+		echo "<nav>";
+		echo "<a href=\"index.php?form=add_patient\"><label>Ajouter Un Patient</label></a>";
+		echo "</nav>";
 	}
 }
 

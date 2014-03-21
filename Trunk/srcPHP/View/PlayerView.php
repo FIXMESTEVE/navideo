@@ -7,7 +7,7 @@ class PlayerView implements View{
 	var $video;
 	var $tags;
 
-	function PlayerView(){
+	function PlayerView($filename){
 		$this->video = new VideoView();
 		$this->tags = new TagMenuView();
 	}
@@ -17,6 +17,14 @@ class PlayerView implements View{
 		$this->video->linkCSS();
 		$this->tags->linkCSS();
 	}
+
+	function linkJS(){
+		$this->video->linkJS();
+		$this->tags->linkJS();
+		echo "<script src=\"js/player.js\"> </script>";
+	}
+
+	function onLoadJS(){ return "adaptCSSPlayer();"; }
 
 	function draw(){
 		echo "<section id=\"player\">";

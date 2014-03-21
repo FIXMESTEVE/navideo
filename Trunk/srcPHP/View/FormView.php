@@ -16,6 +16,10 @@ abstract class FormView implements View{
 
 	abstract function linkCSS();
 
+	abstract function linkJS();
+
+	abstract function onLoadJS();
+
 	abstract function draw();
 }
 ?>

@@ -6,6 +6,12 @@ class FormViewUpload extends FormView{
 		parent::FormView($action);
 	}
 
+	function linkCSS(){ }
+
+	function linkJS(){ }
+
+	function onLoadJS(){ return ""; }
+
 	function execute(){
 
 	}

@@ -19,6 +19,10 @@ class MenuContextGuest implements MenuContext{
 		$this->formConnection->linkCSS();
 	}
 
+	function linkJS(){ }
+
+	function onLoadJS(){ return ""; }
+
 	function draw(){
 		echo "<header>";
 		$this->formConnection->draw();

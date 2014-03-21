@@ -32,6 +32,10 @@ class MenuContextAdministrator implements MenuContext{
 
 	function linkCSS(){ echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/menu_admin.css\">"; }
 
+	function linkJS(){ }
+
+	function onLoadJS(){ return ""; }
+
 	function draw(){
 		echo "<header>";
 		echo "<label id=\"welcome\">Bonjour ".$this->name."</label>";

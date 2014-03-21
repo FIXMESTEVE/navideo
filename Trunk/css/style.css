@@ -1,0 +1,61 @@
+
+.frame1
+{
+    background-image: url("bg1.jpg");
+    background-attachment: scroll; 
+	background-position: top;
+	width: 65%;
+	height: 720px;
+	position: fixed;
+	
+	left: 0.5%;
+	top: 100px;
+	border: 1px solid black;
+	float:left;
+	text-align : center;
+}
+
+.frame2
+{
+    background-image: url("bg1.jpg");
+    background-attachment: scroll; 
+	background-position: top;
+	width: 33.5%;
+	height: 720px;
+	position: fixed;
+	
+	left: 66%;
+	top: 100px;
+	
+	border: 1px solid black;
+	text-align : center;
+}
+
+.menu
+{
+	background-image: url("bg3.jpg");
+    background-attachment: scroll; 
+	background-position: top;
+	position: fixed;
+    left: 0.5%;
+    top: 0.5%;
+	display: block;
+	margin: 0 auto;
+	height: 90px;
+	width: 1000px;
+	border: 1px solid black;
+	color: white;
+}
+
+body
+{
+background-image: url("bg4.jpg");
+/*border: 1px solid black;*/
+/*border-radius: 250px;*/
+}
+/*
+html
+{ 
+background: #1A1A1A; 
+font: 1.1em sans-serif; 
+}*/
