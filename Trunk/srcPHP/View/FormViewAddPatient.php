@@ -8,15 +8,18 @@ class FormViewAddPatient extends FormView{
 	var $model = NULL;
 	var $listNotPatient = NULL;
 	var $listPatient = NULL;
+	var $id_doctor;
 
 	function FormViewAddPatient($action, $id_doctor){
 		try{
 			parent::FormView($action);
 			if(is_numeric($id_doctor)){
+				$this->id_doctor = $id_doctor;
 				$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
-				$this->listNotPatient = $this->model->getListOfNotPatients($id_doctor);
-				$this->listPatient = $this->model->getListOfPatients($id_doctor);
+				$this->listNotPatient = $this->model->getListOfNotPatients($this->id_doctor);
+				$this->listPatient = $this->model->getListOfPatients($this->id_doctor);
 				$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
+				$this->execute();
 			}
 			else
 				throw new Exception("ERREUR - Fonction FormViewAddPatient(...) - Verifier les types des parametres");
@@ -32,35 +35,37 @@ class FormViewAddPatient extends FormView{
 	function onLoadJS(){ return ""; }
 
 	function execute(){
-/*		if(isset($_GET) && isset($_GET["execute"]) && $_GET["execute"] === "true")
-			if(isset($_POST) && isset($_POST["NamePatient"]) && !empty($_POST["NamePatient"]) && isset($_SESSION["Authentification"]["Id"]) && !empty($_SESSION["Authentification"]["Id"]))
-				$this->model->addPatient($_POST["NamePatient"], $_SESSION["Authentification"]["Id"]);
-*/	}
+		if(isset($_GET) && isset($_GET["execute"]) && $_GET["execute"] === "true")
+			if(isset($_POST) && isset($_POST["mine"])){
+				$this->model->updateListPatient($this->id_doctor, $_POST["mine"]);
+				header('Location: index.php');
+			}
+	}
 
 	function draw(){
-		echo "<form id=\"add_doctor\" action=\"".$this->action."?form=add_patientr&execute=true\" method=\"post\">";
+		echo "<form id=\"add_doctor\" action=\"".$this->action."?form=add_patient&execute=true\" method=\"post\">";
 		echo "<table>";
 		echo "<tr><th>Autres Patients</th><th></th><th>Mes Patients</th></tr>";
 		echo "<tr>";
 		echo "<th>";
-		echo "<select size=15 id=\"others\">";
+		echo "<select size=15 id=\"others\" multiple>";
 		for($i=0; $i<count($this->listNotPatient); $i++)
 			echo "<option>".$this->listNotPatient[$i]["Name"]." ".$this->listNotPatient[$i]["Id"]."</option>";
 		echo "</select>";
 		echo "</th>";
 		echo "<th>";
-		echo "<button onclick=\"removePatient();\">"."<<"."</button>";
-		echo "<button onclick=\"addPatient()\">".">>"."</button>";
+		echo "<button type=\"button\" onclick=\"removePatient();\">"."<<"."</button>";
+		echo "<button type=\"button\" onclick=\"addPatient();\">".">>"."</button>";
 		echo "</th>";
 		echo "<th>";
-		echo "<select size=15 id=\"mine\">";
+		echo "<select name=\"mine[]\" size=15 id=\"mine\" multiple>";
 		for($i=0; $i<count($this->listPatient); $i++)
-			echo "<option>".$this->listPatient[$i]["Name"]." ".$this->listPatient[$i]["Id"]."</option>";
+			echo "<option value=\"".$this->listPatient[$i]["Id"]."\">".$this->listPatient[$i]["Name"]." ".$this->listPatient[$i]["Id"]."</option>";
 		echo "</select>";
 		echo "</th>";
 		echo "</tr>";
 		echo "</table>";
-		echo "<input type=\"submit\" value=\"Valider\">";
+		echo "<input type=\"submit\" value=\"Valider\" onclick=\"updatePatients();\">";
 		echo "</form>";
 		echo "<button onclick=\"goToCreateNewPatient();\">Creer un nouveau patient</button>";
 	}

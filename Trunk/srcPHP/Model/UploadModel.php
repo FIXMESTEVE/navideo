@@ -9,9 +9,8 @@ class UploadModel extends Model{
 
 	function addDoctor($name, $username, $password){
 		try {
-			if(is_string($name) && is_string($username) && is_string($password)){
+			if(is_string($name) && is_string($username) && is_string($password))
 				$this->executeSQL("INSERT INTO \"public\".\"Doctor\" (\"name\", \"username\", \"password\") VALUES ('".$name."', '".$username."', '".$password."');");
-			}
 			else
 				throw new Exception("ERREUR - Fonction addDoctor - Verifier les types des parametres");
 		}catch(Exception $e){
@@ -30,20 +29,56 @@ class UploadModel extends Model{
 					if($row = pg_fetch_row($res)){
 						$path = $path.$row[0];
 						if(!mkdir($path, 0777, true))
-							throw new Exception("ERREUR - Fonction addPatient - creation du repertoire impossible");
+							throw new Exception("ERREUR - Fonction addPatient(...) - creation du repertoire impossible");
 					}
 					else
-						throw new Exception("ERREUR - Fonction addPatient - nouveau patient non trouve");
+						throw new Exception("ERREUR - Fonction addPatient(...) - nouveau patient non trouve");
 				}
 				else
-					throw new Exception("ERREUR - Fonction addPatient - usernameDoctor non trouve");
+					throw new Exception("ERREUR - Fonction addPatient(...) - usernameDoctor non trouve");
 			}
 			else
-				throw new Exception("ERREUR - Fonction addPatient - Verifier les types des parametres");
+				throw new Exception("ERREUR - Fonction addPatient(...) - Verifier les types des parametres");
 		} catch(Exception $e){
 			echo $e->getMessage();
 			if(is_dir($path))
 				rmdir($path);
+		}
+	}
+
+	function deleteAllPatient($id_doctor){
+		try{
+			if(is_numeric($id_doctor))
+				$this->executeSQL("DELETE FROM \"public\".\"Suivre\" WHERE \"idDoctor\" = ".$id_doctor." ;");
+			else
+				throw new Exception("ERREUR - Fonction deleteAllPatient(...) - Verifier les types des parametres");
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
+	function linkPatient($id_doctor, $id_patient){
+		try{
+			if(is_numeric($id_doctor) && is_numeric($id_patient))
+				$this->executeSQL("INSERT INTO \"public\".\"Suivre\" (\"idDoctor\", \"idPatient\") VALUES (".$id_doctor.", ".$id_patient.");");
+			else
+				throw new Exception("ERREUR - Fonction linkPatient(...) - Verifier les types des parametres");
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
+	function updateListPatient($id_doctor, $patients){
+		try{
+			if(is_numeric($id_doctor) && is_array($patients)){
+				$this->deleteAllPatient($id_doctor);
+				for($i=0; $i<count($patients); $i++)
+					$this->linkPatient($id_doctor, $patients[$i]);
+			}
+			else
+				throw new Exception("ERREUR - Fonction updateListPatient(...) - Verifier les types des parametres");
+		} catch(Exception $e){
+			echo $e->getMessage();
 		}
 	}
 

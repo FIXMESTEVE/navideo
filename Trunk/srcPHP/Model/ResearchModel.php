@@ -44,7 +44,7 @@ class ResearchModel extends Model{
 	function getListOfPatients($id_doctor){
 		try{
 			if(is_numeric($id_doctor)){
-				$res = $this->executeSQL("SELECT \"idPatient\", \"name\" FROM \"public\".\"Patient\" WHERE \"idDoctor\" = ".$id_doctor.";");
+				$res = $this->executeSQL("SELECT \"Patient\".\"idPatient\", \"name\" FROM \"public\".\"Suivre\" INNER JOIN \"Patient\" ON \"Suivre\".\"idPatient\" = \"Patient\".\"idPatient\" WHERE \"Suivre\".\"idDoctor\" = ".$id_doctor.";");
 				if(pg_num_rows($res) > 0){
 					$tmp = array();
 					while($row = pg_fetch_row($res))
@@ -65,7 +65,7 @@ class ResearchModel extends Model{
 	function getListOfNotPatients($id_doctor){
 		try{
 			if(is_numeric($id_doctor)){
-				$res = $this->executeSQL("SELECT \"idPatient\", \"name\" FROM \"public\".\"Patient\" EXCEPT SELECT \"idPatient\", \"name\" FROM \"public\".\"Patient\" WHERE \"idDoctor\" = ".$id_doctor.";");
+				$res = $this->executeSQL("SELECT \"idPatient\", \"name\" FROM \"public\".\"Patient\" WHERE \"idPatient\" NOT IN (SELECT \"idPatient\" FROM \"public\".\"Suivre\" WHERE \"idDoctor\" = ".$id_doctor.");");
 				if(pg_num_rows($res) > 0){
 					$tmp = array();
 					while($row = pg_fetch_row($res))
