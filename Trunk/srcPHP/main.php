@@ -47,7 +47,8 @@ class Main{
 		echo "<title>Projet De Programmation</title>";
 		echo "<script type=\"text/javascript\" src=\"srcPHP/script.js\"></script>";
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/body.css\">";
-
+		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/newTagTest.css\">";
+		
 		$this->menu->linkCSS();
 		$this->section->linkCSS();
 		$this->section->linkJS();
@@ -57,9 +58,14 @@ class Main{
 
 		$this->menu->draw();
 		$this->section->draw();
+		echo "<div id=\"newTagTest\">";
+		echo "Ancre A = null & Ancre B = null";
+		echo "</div>";
+
 
 		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
-
+		echo "<button onClick=\"anchorTag(this);\">Etiquettage A->B</button>";
+		
 		echo "</body>";
 		echo "</html>";
 	}
