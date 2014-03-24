@@ -18,24 +18,19 @@ class UploadModel extends Model{
 		}
 	}
 
-	function addPatient($nomPatient, $usernameDoctor){
+	function addPatient($nomPatient){
 		$path = "data/".$nomPatient;
 		try {
-			if(is_string($nomPatient) && is_string($usernameDoctor)){
-				$res = $this->executeSQL("SELECT \"idDoctor\" FROM \"public\".\"Doctor\" WHERE username = '".$usernameDoctor."';");
+			if(is_string($nomPatient)){
+				$this->executeSQL("INSERT INTO \"public\".\"Patient\" (\"name\") VALUES ('".$nomPatient."');");
+				$res = $this->executeSQL("SELECT MAX(\"idPatient\") FROM \"public\".\"Patient\" WHERE name = '".$nomPatient."';");
 				if($row = pg_fetch_row($res)){
-					$this->executeSQL("INSERT INTO \"public\".\"Patient\" (\"name\", \"idDoctor\") VALUES ('".$nomPatient."', ".$row[0].");");
-					$res = $this->executeSQL("SELECT MAX(\"idPatient\") FROM \"public\".\"Patient\" WHERE name = '".$nomPatient."';");
-					if($row = pg_fetch_row($res)){
-						$path = $path.$row[0];
-						if(!mkdir($path, 0777, true))
-							throw new Exception("ERREUR - Fonction addPatient(...) - creation du repertoire impossible");
-					}
-					else
-						throw new Exception("ERREUR - Fonction addPatient(...) - nouveau patient non trouve");
+					$path = $path.$row[0];
+					if(!mkdir($path, 0777, true))
+						throw new Exception("ERREUR - Fonction addPatient(...) - creation du repertoire impossible");
 				}
 				else
-					throw new Exception("ERREUR - Fonction addPatient(...) - usernameDoctor non trouve");
+					throw new Exception("ERREUR - Fonction addPatient(...) - nouveau patient non trouve");
 			}
 			else
 				throw new Exception("ERREUR - Fonction addPatient(...) - Verifier les types des parametres");

@@ -1,11 +1,11 @@
 <?php
 
-include_once "Model/UploadModel.php";
-include_once "View/MenuView.php";
+//include_once "Model/UploadModel.php";
+include_once "View/Menu/MenuView.php";
 //include_once "View/VideoView.php";
 //include_once "View/FormViewAddDoctor.php";
-include_once "View/TagMenuView.php";
-include_once "View/SectionView.php";
+//include_once "View/TagMenuView.php";
+include_once "View/Section/SectionView.php";
 
 class Main{
 	var $model;
