@@ -124,6 +124,78 @@ class ResearchModel extends Model{
 			echo $e->getMessage();
 		}
 	}
+	
+	/**
+	 * Find all videos matching with metadatas depending on arguments.
+	 * @param $argumentsArray this is an array of all arguments
+	 *      example of an argument : array( "title" => "a title", "observation" => "an observation" )
+	 * @return an array of videos (sorted by ids) or NULL no video found
+	 *	example of a video : array( "idVideo" => 0, "idPatient" => 0, "filename" => "path", "title" => "a title" )
+	 */
+	function findAllVideosMatchingMetadatasArguments($argumentsArray) {
+		assert(is_array($argumentsArray), ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Le paramètre n\'est pas correct.');
+		
+		// Step 1 : find the metadatas
+		$allMetadataVideoIds = array();
+		
+		foreach($argumentsArray as $argument)
+		{
+			$metadataTitle       = isset($argument['title']) ? addslashes($argument['title']) : null;
+			$metadataObservation = isset($argument['observation']) ? addslashes($argument['observation']) : null;
+			
+			assert(!is_null($metadataTitle) || !is_null($metadataObservation), ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Un argument n\'est pas correct.');
+			
+			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."';";
+
+			try
+			{
+				$resultQuery    = $this->executeSQL($query);
+				$allMatchingIds = pg_fetch_all_columns($resultQuery);
+				
+				if($allMatchingIds !== false)
+				{
+					foreach($allMatchingIds as $matchingId)
+						if(!in_array((int) $matchingId, $allMetadataVideoIds))
+							$allMetadataVideoIds[] = (int) $matchingId;
+				}
+			}
+			catch(Exception $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
+		
+		// Step 2 : find the videos
+		if(empty($allMetadataVideoIds))
+			return null;
+		
+		$allVideos = array();
+		
+		foreach($allMetadataVideoIds as $videoId)
+		{
+			$query = "SELECT \"idVideo\",\"idPatient\",\"filename\",\"title\" FROM \"public\".\"Video\" WHERE \"idVideo\" = ".$videoId.";";
+			
+			try
+			{
+				$resultQuery   = $this->executeSQL($query);
+				$matchingVideo = pg_fetch_assoc($resultQuery);
+				
+				if($matchingVideo === false)
+					throw new Exception(ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Aucune vidéo ne correspond à l\'identifiant '.$videoId.'.');
+				
+				$allVideos[] = $matchingVideo;
+			}
+			catch(Exception $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
+		
+		if(empty($allVideos))
+			return null;
+		
+		return $allVideos;
+	}
 }
 
 ?>
