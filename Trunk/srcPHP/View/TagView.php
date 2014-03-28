@@ -1,21 +1,6 @@
 <?php
-/**
- * TagView.php
- *
- * Long description for file (if any)...
- *
- * @author
- * @copyright  2014
- */
+include_once "srcPHP/View/View.php";
 
-include_once "View.php";
-
-/**
- * TagView
- *
- * Long description for class (if any)...
- *
- */
 class TagView implements View{
 
 	/* Identification */
@@ -28,19 +13,14 @@ class TagView implements View{
 	var $end;
 
 	function TagView($id, $title, $observation, $start, $end){
-		try{
-			if(is_numeric($id) && is_string($title) && is_string($observation) && is_string($start) && is_string($end)){
-				$this->id = $id;
-				$this->title = $title;
-				$this->observation = $observation;
-				$this->start = $this->timeToNbSeconds($start);
-				$this->end  = $end;
-			}
-			else
-				throw new Exception("ERREUR - TagView(...) - Verifier les types des parametres");
-		}catch(Exception $e){
-			echo $e->getMessage();
-		}
+		assert(is_numeric($id) && is_string($title) && is_string($observation) && is_string($start) && is_string($end),
+		       get_class($this).'::'.__FUNCTION__.'($id, $title, $observation, $start, $end) - Les paramètres ne sont pas corrects.');
+		
+		$this->id    = $id;
+		$this->start = $start;
+		$this->end   = $end;
+		$this->title = $title;
+		$this->observation = $observation;
 	}
 
 	function timeToNbSeconds($time){
@@ -65,8 +45,15 @@ class TagView implements View{
 
 	function onLoadJS(){ return ""; }
 
-	function draw(){
-		echo "<li class=\"tag\" onclick=\"onClickTag(".$this->start.");\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\" >".$this->observation."</li>";
+	function draw() {
+		echo '<tr class="tag" onclick="onClickTag('.$this->start.');" onmouseover="onMouseOver(this);" onmouseout="onMouseOut(this);">';
+		echo '<td class="id"    style="display:none;">'.$this->id.'</td>';
+		echo '<td class="title" style="display:none;">'.$this->title.'</td>';
+		echo '<td class="start" style="display:none;">'.$this->start.'</td>';
+		echo '<td class="end"   style="display:none;">'.$this->end.'</td>';
+		echo '<td class="id">'.$this->observation.'</td>';
+		echo '</tr>';
+		//echo "<li class=\"tag\" onclick=\"onClickTag(".$this->start.");\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\" >".$this->observation."</li>";
 	}
 
 }

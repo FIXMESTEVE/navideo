@@ -1,61 +1,76 @@
 <?php
-/**
- * TagMenuView.php
- *
- * Long description for file (if any)...
- *
- * @author
- * @copyright  2014
- */
+include_once("srcPHP/View/View.php");
+include_once("srcPHP/View/Player/Tag/TagView.php");
+include_once("srcPHP/Model/ResearchModel.php");
 
-include_once "srcPHP/Model/ResearchModel.php";
-include_once "TagView.php";
-include_once "View.php";
+class TagMenuView implements View
+{
+	private $model = null;
+	private $tags  = null;
 
-/**
- * TagMenuView
- *
- * Long description for class (if any)...
- *
- */
-class TagMenuView implements View {
-
-	var $model = NULL;
-	var $tags = NULL;
-
-	function TagMenuView($id_video=10) {
-		try{
-			if(!is_numeric($id_video))
-				throw new Exception("TagMenuView(...) - Vérifiez le type des paramètres");
-
-			$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
-			$this->tags  = array();
-
-			/* Initialisation of list of tags */
-			$tmp = $this->model->getListMetadata($id_video);
-			for($i=0; $i<count($tmp); $i++)
-				array_push($this->tags, new TagView($tmp[$i]["Id"], $tmp[$i]["Title"], $tmp[$i]["Observation"], $tmp[$i]["Start"], $tmp[$i]["End"]));
-		}catch(Exception $e){
-			echo $e->getMessage();
+	function TagMenuView($videoId=-1) {
+		assert(is_numeric($videoId), get_class($this).'::'.__FUNCTION__.'($videoId) - Le paramètre doit être un entier.');
+		
+		$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+		$this->tags  = array();
+		
+		// Initialize the array of tags
+		if($videoId < 0)
+			return;
+		
+		$allMetadatas = $this->model->getListMetadata($videoId);
+		
+		if(is_null($allMetadatas))
+			return;
+		
+		foreach($allMetadatas as $metadata)
+		{
+			$id           = $metadata['idMetadata'];
+			$title        = $metadata['title'];
+			$observation  = $metadata['observation'];
+			$start        = $metadata['start'];
+			$end          = $metadata['end'];
+			
+			$this->tags[] = new TagView($id, $title, $observation, $start, $end);
 		}
 	}
 
 	function linkCSS(){
-		echo "<link rel=\"stylesheet\" type=\"test/css\" href=\"css/tag_menu.css\">";
-		$this->tags[0]->linkCSS();
+		$webroot = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+		$webroot = str_replace(basename($webroot).'/', '', $webroot);
+		$webroot = str_replace(basename($webroot).'/', '', $webroot);
+		
+		echo '<link rel="stylesheet" type="text/css" href="'.$webroot.'css/tag_menu.css">';
+		if(!empty($this->tags)) $this->tags[0]->linkCSS();
 	}
 
-	function linkJS(){ $this->tags[0]->linkJS(); }
+	function linkJS(){
+		$webroot = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+		$webroot = str_replace(basename($webroot).'/', '', $webroot);
+		$webroot = str_replace(basename($webroot).'/', '', $webroot);
+		
+		echo '<script type="text/javascript" src="'.$webroot.'js/tag_menu_sorting_script.js"></script>';
+		if(!empty($this->tags)) $this->tags[0]->linkJS();
+	}
 
 	function onLoadJS(){ return ""; }
+	
+	function countNumberOfTags() { return count($this->tags); }
 
 	function draw() {
-		echo "<section id=\"TagMenuView\">";
-		echo "<ul type=none>";
-		for($i=0; $i<count($this->tags); $i++)
-			$this->tags[$i]->draw();
-		echo "</ul>";
-		echo "</section>";
+		echo '<section id="TagMenuView">';
+		echo '<table class="buttons">';
+		echo '<tr>';
+		echo '<td><input type="button" name="by_id" value="Défaut" disabled="true"></td>';
+		echo '<td><input type="button" name="by_title" value="Titres"></td>';
+		echo '<td><input type="button" name="by_observation" value="Observation"></td>';
+		echo '</tr>';
+		echo '</table>';
+		echo '<table class="tags">';//'<ul type="none">';
+		foreach($this->tags as $tag)
+			$tag->draw();
+		echo '</table>';//'</ul>';
+		echo '</section>';
 	}
 
 }

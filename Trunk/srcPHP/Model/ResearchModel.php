@@ -83,24 +83,55 @@ class ResearchModel extends Model{
 		}
 	}
 
-	function getListMetadata($id_video){
-		try{
-			if(is_numeric($id_video)){
-				$res = $this->executeSQL("SELECT \"idMetadata\", \"title\", \"observation\", \"start\", \"end\" FROM \"public\".\"Metadata\" WHERE \"idVideo\" = ".$id_video.";");
-				if(pg_num_rows($res) > 0){
-					$tmp = array();
-					while($row = pg_fetch_row($res))
-						array_push($tmp, array("Id" => $row[0], "Title" => $row[1], "Observation" => $row[2], "Start" => $row[3], "End" => $row[4]));
-					return $tmp;
+	/**
+	 * Find all metadatas matching with video id.
+	 * @param $videoId this is the id of the video
+	 * @return an array of metadatas (sorted by ids) or NULL no metadata found
+	 */
+	function getListMetadata($videoId) {
+		assert(is_numeric($videoId), get_class($this).'::'.__FUNCTION__.'($videoId) - Le paramètre doit être un entier.');
+		
+		$queryMetadata = "SELECT * FROM \"public\".\"Metadata\" WHERE \"idVideo\" = ".$videoId." ORDER BY \"idVideo\";";
+		
+		try
+		{
+			$resultQuery       = $this->executeSQL($queryMetadata);
+			$matchingMetadatas = pg_fetch_all($resultQuery);
+			
+			if($matchingMetadatas === false)
+				return null;
+			
+			$allMetadatas = array();
+			
+			foreach($matchingMetadatas as $metadata)
+			{
+				$queryTagger    = "SELECT \"start\", \"end\" FROM \"public\".\"Tagger\" WHERE \"idMetadata\" = ".$metadata['idMetadata']." AND \"idVideo\" = ".$metadata['idVideo'].";";
+				$resultQuery    = $this->executeSQL($queryTagger);
+				$matchingTagger = pg_fetch_assoc($resultQuery);
+				
+				$start = "00:00:00";
+				$end   = "00:00:00";
+				
+				if($matchingTagger !== false)
+				{
+					$start = $matchingTagger['start'];
+					$end   = $matchingTagger['end'];
 				}
-				else
-					throw new Exception("ERREUR - Fonction getListMetadata(...) - Aucune donnees liees a cette Video");
+				
+				$metadata['start'] = $start;
+				$metadata['end']   = $end;
+				
+				$allMetadatas[] = $metadata;
 			}
-			else
-				throw new Exception("ERREUR - Fonction getListMetadata(...) - Verifier les types des parametres");
-		}catch(Exception $e){
-			echo $e->getMessage();
+			
+			return $allMetadatas;
 		}
+		catch(Exception $ex)
+		{
+			echo $ex->getMessage();
+		}
+		
+		return null;
 	}
 
 	function getVideosPatient($id_patient){
@@ -133,7 +164,7 @@ class ResearchModel extends Model{
 	 *	example of a video : array( "idVideo" => 0, "idPatient" => 0, "filename" => "path", "title" => "a title" )
 	 */
 	function findAllVideosMatchingMetadatasArguments($argumentsArray) {
-		assert(is_array($argumentsArray), ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Le paramètre n\'est pas correct.');
+		assert(is_array($argumentsArray), get_class($this).'::'.__FUNCTION__.'($argumentsArray) - Le paramètre n\'est pas correct.');
 		
 		// Step 1 : find the metadatas
 		$allMetadataVideoIds = array();
@@ -145,7 +176,7 @@ class ResearchModel extends Model{
 			
 			assert(!is_null($metadataTitle) || !is_null($metadataObservation), ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Un argument n\'est pas correct.');
 			
-			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."';";
+			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."' ORDER BY \"idVideo\";";
 
 			try
 			{
