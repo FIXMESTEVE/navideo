@@ -1,76 +1,87 @@
 <?php
-include_once("srcPHP/View/View.php");
-include_once("srcPHP/View/Player/Tag/TagView.php");
-include_once("srcPHP/Model/ResearchModel.php");
+include_once "srcPHP/Model/ResearchModel.php";
+include_once "TagView.php";
+include_once "srcPHP/View/View.php";
 
-class TagMenuView implements View
-{
-	private $model = null;
-	private $tags  = null;
+class TagMenuView implements View {
 
-	function TagMenuView($videoId=-1) {
-		assert(is_numeric($videoId), get_class($this).'::'.__FUNCTION__.'($videoId) - Le paramètre doit être un entier.');
-		
-		$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
-		$this->tags  = array();
-		
-		// Initialize the array of tags
-		if($videoId < 0)
-			return;
-		
-		$allMetadatas = $this->model->getListMetadata($videoId);
-		
-		if(is_null($allMetadatas))
-			return;
-		
-		foreach($allMetadatas as $metadata)
-		{
-			$id           = $metadata['idMetadata'];
-			$title        = $metadata['title'];
-			$observation  = $metadata['observation'];
-			$start        = $metadata['start'];
-			$end          = $metadata['end'];
-			
-			$this->tags[] = new TagView($id, $title, $observation, $start, $end);
+	var $model = NULL;
+	var $tagsByTime = NULL;
+	var $tagsByTitle = NULL;
+
+	function TagMenuView($id_video=10) {
+		try{
+			if(!is_numeric($id_video))
+				throw new Exception("TagMenuView(...) - Vérifiez le type des paramètres");
+
+			$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+			$this->tagsByTime = array();
+			$this->tagsByTitle = array();
+
+			/* Initialisation of list of tags */
+			$tmp = $this->model->getListMetadataByTime($id_video);
+			for($i=0; $i<count($tmp); $i++)
+				array_push($this->tagsByTime, new TagView($tmp[$i]["Id"], $tmp[$i]["Title"], $tmp[$i]["Observation"], $tmp[$i]["Start"], $tmp[$i]["End"]));
+
+			$tmp = $this->model->getListMetadataByTitle($id_video);
+			for($i=0; $i<count($tmp); $i++)
+				array_push($this->tagsByTitle, new TagView($tmp[$i]["Id"], $tmp[$i]["Title"], $tmp[$i]["Observation"], $tmp[$i]["Start"], $tmp[$i]["End"]));
+
+		}catch(Exception $e){
+			echo $e->getMessage();
 		}
 	}
 
 	function linkCSS(){
-		$webroot = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-		$webroot = str_replace(basename($webroot).'/', '', $webroot);
-		$webroot = str_replace(basename($webroot).'/', '', $webroot);
-		
-		echo '<link rel="stylesheet" type="text/css" href="'.$webroot.'css/tag_menu.css">';
-		if(!empty($this->tags)) $this->tags[0]->linkCSS();
+		echo "<link rel=\"stylesheet\" type=\"test/css\" href=\"css/tag_menu.css\">";
+		$this->tagsByTime[0]->linkCSS();
 	}
 
 	function linkJS(){
-		$webroot = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
-		$webroot = str_replace(basename($webroot).'/', '', $webroot);
-		$webroot = str_replace(basename($webroot).'/', '', $webroot);
-		
-		echo '<script type="text/javascript" src="'.$webroot.'js/tag_menu_sorting_script.js"></script>';
-		if(!empty($this->tags)) $this->tags[0]->linkJS();
+		$this->tagsByTime[0]->linkJS();
+		echo "<script src=\"js/tag_menu.js\"></script>";
 	}
 
 	function onLoadJS(){ return ""; }
-	
-	function countNumberOfTags() { return count($this->tags); }
+
+	function drawTagsByTime(){
+		for($i=0; $i<count($this->tagsByTime); $i++)
+			$this->tagsByTime[$i]->drawTemporality();
+	}
+
+	function drawTagsByTitle(){
+		for($i=0; $i<count($this->tagsByTitle); $i++){
+			if(!$this->tagsByTitle[$i]->isSameTag($this->tagsByTitle[$i+1]))
+				$this->tagsByTitle[$i]->drawTemporality();
+			else{
+				$this->tagsByTitle[$i]->drawTagName();
+				echo "<ul type=none>";
+				$this->tagsByTitle[$i]->drawTime();
+				for($j=$i+1; $this->tagsByTitle[$i]->isSameTag($this->tagsByTitle[$j]) && $j<count($this->tagsByTitle); $j++)
+					$this->tagsByTitle[$j]->drawTime();
+				echo "</ul>";
+				$i = $j-1;
+			}
+		}
+	}
 
 	function draw() {
-		echo '<section id="TagMenuView">';
-		echo '<table class="buttons">';
-		echo '<tr>';
-		echo '<td><input type="button" name="by_id" value="Défaut" disabled="true"></td>';
-		echo '<td><input type="button" name="by_title" value="Titres"></td>';
-		echo '<td><input type="button" name="by_observation" value="Observation"></td>';
-		echo '</tr>';
-		echo '</table>';
-		echo '<table class="tags">';//'<ul type="none">';
-		foreach($this->tags as $tag)
-			$tag->draw();
-		echo '</table>';//'</ul>';
-		echo '</section>';
+		echo "<section id=\"TagMenuView\">";
+		echo "<table>";
+		echo "<tr id=\"title\" >";
+		echo "<th onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\" onclick=\"getTagsOnTime();\">Temporelle</th>";
+		echo "<th onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\" onclick=\"getTagsOnTitle();\">Alphabetique</th>";
+		echo "</tr>";
+		echo "<tr><th colspan=2>";
+		echo "<ul id=\"tagsByTime\">";
+		$this->drawTagsByTime();
+		echo "</ul>";
+		echo "<ul id=\"tagsByTitle\">";
+		$this->drawTagsByTitle();
+		echo "</ul>";
+		echo "</th></tr>";
+		echo "</table>";
+		echo "</section>";
 	}
 
 }

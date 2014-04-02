@@ -7,9 +7,17 @@ class PlayerView implements View{
 	var $video;
 	var $tags;
 
-	function PlayerView($filename){
-		$this->video = new VideoView();
-		$this->tags = new TagMenuView();
+	function PlayerView($filename="data/video.mp4"){
+		try{
+			if(is_string($filename)){
+				$this->video = new VideoView($filename);
+				$this->tags = new TagMenuView();
+			}
+			else
+				throw new Exception("ERREUR - Fonction PlayerView(...) - Verifier les types des parametres");
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
 	}
 
 	function linkCSS(){

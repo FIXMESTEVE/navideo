@@ -13,7 +13,8 @@ class Connection extends FormView{
 	function onLoadJS(){ return ""; }
 
 	function execute(){
-
+		if(isset($_POST) && isset($_POST["Login"]) && !empty($_POST["Login"]) && isset($_POST["Password"]) && !empty($_POST["Password"]))
+			$_SESSION["Authentification"] = array("Login" => $_POST["Login"], "Password" => $_POST["Password"]);
 	}
 
 	function draw(){

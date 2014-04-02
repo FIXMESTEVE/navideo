@@ -1,6 +1,6 @@
 <?php
 include_once "srcPHP/View/Form/FormView.php";
-include_once "srcPHP/Model/UploadModel.php";
+include_once "srcPHP/Model/AdminModel/AdminModel.php";
 
 
 class AddDoctor extends FormView{
@@ -8,7 +8,7 @@ class AddDoctor extends FormView{
 
 	function AddDoctor($action){
 		parent::FormView($action);
-		$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
+		$this->model = new AdminModel("dbserver", "xjouveno", "xjouveno", "pdp");
 		$this->execute();
 	}
 

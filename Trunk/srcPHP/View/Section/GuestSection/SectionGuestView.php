@@ -1,5 +1,6 @@
 <?php
 include_once "srcPHP/View/Player/PlayerView.php";
+include_once "srcPHP/View/Section/GuestSection/Mosaic.php";
 include_once "srcPHP/View/Section/InterfaceSectionView.php";
 
 class SectionGuestView implements InterfaceSectionView{
@@ -11,7 +12,10 @@ class SectionGuestView implements InterfaceSectionView{
 	}
 
 	function setContext(){
-		$this->context = new PlayerView();
+		if(isset($_GET) && isset($_GET["play"]))
+			$this->context = new PlayerView();
+		else
+			$this->context = new Mosaic();
 	}
 
 	function linkCSS(){ $this->context->linkCSS(); }

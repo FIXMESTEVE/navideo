@@ -8,6 +8,7 @@ class GuestMenu implements MenuInterface{
 
 	function GuestMenu(){
 		$this->formConnection = new Connection("index.php");
+//		$this->execute();
 	}
 
 	function isLogged(){ return false; }
@@ -27,6 +28,9 @@ class GuestMenu implements MenuInterface{
 		echo "<header>";
 		$this->formConnection->draw();
 		echo "</header>";
+		echo "<nav>";
+		echo "<a href=\"index.php\" >Mosaique</a>";
+		echo "</nav>";
 	}
 }
 

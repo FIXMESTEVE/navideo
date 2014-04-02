@@ -1,4 +1,5 @@
 <?php
+include_once "srcPHP/View/View.php";
 
 class VideoView implements View{
 

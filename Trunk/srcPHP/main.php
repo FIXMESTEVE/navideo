@@ -1,21 +1,14 @@
 <?php
 
-//include_once "Model/UploadModel.php";
 include_once "View/Menu/MenuView.php";
-//include_once "View/VideoView.php";
-//include_once "View/FormViewAddDoctor.php";
-//include_once "View/TagMenuView.php";
 include_once "View/Section/SectionView.php";
 
 class Main{
-	var $model;
 	var $menu;
 	var $section;
 
 	function Main(){
 		try{
-			$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
-//			$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 			$this->menu = new MenuView();
 			$this->section = new SectionView();
 		} catch(Exception $e){
@@ -25,30 +18,13 @@ class Main{
 	}
 
 	function run(){
-//		UploadModel
-
-//		$this->model->addDoctor("House", "Gregory", "Diagnostic");
-//		$this->model->addDoctor("Hadley", "Numero 13", "Diagnostic");
-//		$this->model->addDoctor("Martin", "Martin", "Diagno");
-
-//		$this->model->addPatient("Martin", "Gregory");
-
-//		$this->model->addVideo(3,"monChemin1");
-//		$this->model->addVideo(3,"monChemin2");
-
-//		ResearchModel
-//		$res = $this->model->getListOfPatients(22);
-//		for($i=0; $i<count($res); $i++)
-//			echo $res[$i];
-
 		echo "<!doctype html>";
 		echo "<html>";
 		echo "<head>";
 		echo "<title>Projet De Programmation</title>";
 		echo "<script type=\"text/javascript\" src=\"srcPHP/script.js\"></script>";
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/body.css\">";
-		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/newTagTest.css\">";
-		
+
 		$this->menu->linkCSS();
 		$this->section->linkCSS();
 		$this->section->linkJS();
@@ -58,20 +34,12 @@ class Main{
 
 		$this->menu->draw();
 		$this->section->draw();
-		echo "<div id=\"newTagTest\">";
-		echo "Ancre A = null & Ancre B = null";
-		echo "</div>";
-
 
 		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
-		echo "<button onClick=\"anchorTag(this);\">Etiquettage A->B</button>";
-		
+
 		echo "</body>";
 		echo "</html>";
 	}
 }
-
-
-
 ?>
 

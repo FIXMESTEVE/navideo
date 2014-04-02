@@ -1,5 +1,6 @@
 <?php
 include_once "srcPHP/View/Form/FormView.php";
+include_once "srcPHP/Model/DoctorModel/DoctorModel.php";
 
 class CreatePatient extends FormView{
 
@@ -8,7 +9,7 @@ class CreatePatient extends FormView{
 	function CreatePatient($action){
 		try{
 			parent::FormView($action);
-			$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
+			$this->model = new DoctorModel("dbserver", "xjouveno", "xjouveno", "pdp");
 			$this->execute();
 		} catch(Exception $e){
 			echo $e->getMessage();

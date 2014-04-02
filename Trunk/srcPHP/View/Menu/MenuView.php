@@ -6,16 +6,32 @@ include_once "srcPHP/Model/ResearchModel.php";
 
 class MenuView implements View{
 
-	var $javascriptPath = "";
 	var $context = NULL;
 
-	function MenuView($javaPath=""){
-		if(is_string($javaPath)){
-			$this->javascriptPath = $javaPath;
-			$this->isLogged();
+	function MenuView(){
+		$this->isLogged();
+	}
+
+	function setContext(){
+		session_start();
+
+		// verification de la valide des identifiants
+		if(isset($_SESSION) && isset($_SESSION["Authentification"]) && isset($_SESSION["Authentification"]["Login"]) && isset($_SESSION["Authentification"]["Password"])){
+			$tmp = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+			if( $res = $tmp->getDoctor($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]) )
+				$this->context = new DoctorMenu($res["id"], $res["name"]);
+			else if( $res = $tmp->getAdministrator($_SESSION["Authentification"]["Login"], $_SESSION["Authentification"]["Password"]) )
+				$this->context = new AdminMenu($res, $_SESSION["Authentification"]["Login"]);
+			else
+				echo "BAM - Erreur connection - Identifiant/Mot de passe incorrecte";
+		}
+		else if(isset($_GET["disconnect"]) && !empty($_GET["disconnect"])){
+			$this->context->disconnect();
+			$this->context = new GuestMenu();
 		}
 		else
-			throw new Exception("ERREUR - Fonction SectionModel(...) - Verifier les types des parametres");
+			$this->context = new GuestMenu();
+
 	}
 
 	function isLogged(){

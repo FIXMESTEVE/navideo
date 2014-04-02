@@ -1,6 +1,6 @@
 <?php
 include_once "srcPHP/View/Form/FormView.php";
-include_once "srcPHP/Model/UploadModel.php";
+include_once "srcPHP/Model/DoctorModel/DoctorModel.php";
 include_once "srcPHP/Model/ResearchModel.php";
 
 
@@ -18,7 +18,7 @@ class ManagePatient extends FormView{
 				$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 				$this->listNotPatient = $this->model->getListOfNotPatients($this->id_doctor);
 				$this->listPatient = $this->model->getListOfPatients($this->id_doctor);
-				$this->model = new UploadModel("dbserver", "xjouveno", "xjouveno", "pdp");
+				$this->model = new DoctorModel("dbserver", "xjouveno", "xjouveno", "pdp");
 				$this->execute();
 			}
 			else
