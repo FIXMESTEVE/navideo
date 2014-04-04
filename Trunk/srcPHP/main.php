@@ -22,7 +22,8 @@ class Main{
 		echo "<html>";
 		echo "<head>";
 		echo "<title>Projet De Programmation</title>";
-		echo "<script type=\"text/javascript\" src=\"srcPHP/script.js\"></script>";
+		echo "<script type=\"text/javascript\" src=\"js/SM2/soundmanager2.js\"></script>";
+		echo "<script type=\"text/javascript\" src=\"js/utils.js\"></script>";
 		echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"css/body.css\">";
 
 		$this->menu->linkCSS();
@@ -34,9 +35,13 @@ class Main{
 
 		$this->menu->draw();
 		$this->section->draw();
+		echo "<div id=\"newTagTest\">";
+		echo "Ancre A = null & Ancre B = null";
+		echo "</div>";
 
 		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
-
+		echo "<button onClick=\"anchorTag(this);\">Etiquettage A->B</button>";
+		
 		echo "</body>";
 		echo "</html>";
 	}

@@ -1,4 +1,5 @@
 
+
 // ---------- GLOBAL VARIABLES ----------
 
 var srcVideo;
@@ -7,9 +8,26 @@ var posA = 0;
 var posB = 0;
 var player;
 
+
+soundManager.url = 'swf/';
+var sonClic;
+
 // ---------- METHODS ----------
 
+soundManager.onload = function() {
+	sonClic = soundManager.createSound(
+	{
+		id : "sonClic",
+		url : "data/son.mp3"
+	});
+}
+
+function soundClick(){
+	sonClic.play();
+}
+
 function hideMenu(button){
+	soundClick();
 	var stateMenu = document.getElementsByTagName("HEADER")[0].style.display;
 	if(stateMenu == "none"){
 		document.getElementsByTagName("HEADER")[0].style.display = "block";
@@ -22,6 +40,7 @@ function hideMenu(button){
 }
 	
 function anchorTag(button){
+	soundClick();
 	var player = document.getElementById("myvideo");
 	var srcPlayer = player.currentSrc;
 	
@@ -56,18 +75,11 @@ function sameVideoAnchor(srcPlayer){
 
 function newIntervalTag(init,end){
 	document.getElementById("newTagTest").innerHTML = "Ancre A = " + init + " & Ancre B = " + end + ".";
-	//Mettre la vrai fonction de création du tag ultérieurement 
+	//Mettre la vrai fonction de création du tag ultérieurement ! 
 }
 
 
-/*
-function anchorTag(button){
-	posA = 5;
-	posB = 10;
-	document.getElementById("newTagTest").innerHTML = "Ancre A et Ancre B sont dans une maison ouverte.";
-}
-*/
-
+	
 
 
 
