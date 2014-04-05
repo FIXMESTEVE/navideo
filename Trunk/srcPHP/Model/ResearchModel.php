@@ -83,44 +83,55 @@ class ResearchModel extends Model{
 		}
 	}
 
-	function getListMetadataByTime($id_video){
-		try{
-			if(is_numeric($id_video)){
-				$res = $this->executeSQL("SELECT \"Tagger\".\"idMetadata\", \"Metadata\".\"title\", \"Metadata\".\"observation\", \"Tagger\".\"start\", \"Tagger\".\"end\" FROM \"public\".\"Metadata\" INNER JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"Tagger\".\"idVideo\" = ".$id_video." ORDER BY \"Tagger\".\"start\" ;");
-				if(pg_num_rows($res) > 0){
-					$tmp = array();
-					while($row = pg_fetch_row($res))
-						array_push($tmp, array("Id" => $row[0], "Title" => $row[1], "Observation" => $row[2], "Start" => $row[3], "End" => $row[4]));
-					return $tmp;
+	/**
+	 * Find all metadatas matching with video id.
+	 * @param $videoId this is the id of the video
+	 * @return an array of metadatas (sorted by ids) or NULL no metadata found
+	 */
+	function getListMetadata($videoId) {
+		assert(is_numeric($videoId), get_class($this).'::'.__FUNCTION__.'($videoId) - Le paramètre doit être un entier.');
+		
+		$queryMetadata = "SELECT * FROM \"public\".\"Metadata\" WHERE \"idVideo\" = ".$videoId." ORDER BY \"idVideo\";";
+		
+		try
+		{
+			$resultQuery       = $this->executeSQL($queryMetadata);
+			$matchingMetadatas = pg_fetch_all($resultQuery);
+			
+			if($matchingMetadatas === false)
+				return null;
+			
+			$allMetadatas = array();
+			
+			foreach($matchingMetadatas as $metadata)
+			{
+				$queryTagger    = "SELECT \"start\", \"end\" FROM \"public\".\"Tagger\" WHERE \"idMetadata\" = ".$metadata['idMetadata']." AND \"idVideo\" = ".$metadata['idVideo'].";";
+				$resultQuery    = $this->executeSQL($queryTagger);
+				$matchingTagger = pg_fetch_assoc($resultQuery);
+				
+				$start = "00:00:00";
+				$end   = "00:00:00";
+				
+				if($matchingTagger !== false)
+				{
+					$start = $matchingTagger['start'];
+					$end   = $matchingTagger['end'];
 				}
-				else
-					throw new Exception("ERREUR - Fonction getListMetadata(...) - Aucune donnees liees a cette Video");
+				
+				$metadata['start'] = $start;
+				$metadata['end']   = $end;
+				
+				$allMetadatas[] = $metadata;
 			}
-			else
-				throw new Exception("ERREUR - Fonction getListMetadata(...) - Verifier les types des parametres");
-		}catch(Exception $e){
-			echo $e->getMessage();
+			
+			return $allMetadatas;
 		}
-	}
-
-	function getListMetadataByTitle($id_video){
-		try{
-			if(is_numeric($id_video)){
-				$res = $this->executeSQL("SELECT \"Tagger\".\"idMetadata\", \"Metadata\".\"title\", \"Metadata\".\"observation\", \"Tagger\".\"start\", \"Tagger\".\"end\" FROM \"public\".\"Metadata\" INNER JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"Tagger\".\"idVideo\" = ".$id_video." ORDER BY \"Metadata\".\"title\" ;");
-				if(pg_num_rows($res) > 0){
-					$tmp = array();
-					while($row = pg_fetch_row($res))
-						array_push($tmp, array("Id" => $row[0], "Title" => $row[1], "Observation" => $row[2], "Start" => $row[3], "End" => $row[4]));
-					return $tmp;
-				}
-				else
-					throw new Exception("ERREUR - Fonction getListMetadata(...) - Aucune donnees liees a cette Video");
-			}
-			else
-				throw new Exception("ERREUR - Fonction getListMetadata(...) - Verifier les types des parametres");
-		}catch(Exception $e){
-			echo $e->getMessage();
+		catch(Exception $ex)
+		{
+			echo $ex->getMessage();
 		}
+		
+		return null;
 	}
 
 	function getVideosPatient($id_patient){
@@ -144,15 +155,139 @@ class ResearchModel extends Model{
 			echo $e->getMessage();
 		}
 	}
+	
+	/**
+	 * Find all videos matching with metadatas depending on arguments.
+	 * @param $argumentsArray this is an array of all arguments
+	 *      example of an argument : array( "title" => "a title", "observation" => "an observation" )
+	 * @return an array of videos (sorted by ids) or NULL no video found
+	 *	example of a video : array( "idVideo" => 0, "idPatient" => 0, "filename" => "path", "title" => "a title" )
+	 */
+	function findAllVideosMatchingMetadatasArguments($argumentsArray) {
+		assert(is_array($argumentsArray), get_class($this).'::'.__FUNCTION__.'($argumentsArray) - Le paramètre n\'est pas correct.');
+		
+		// Step 1 : find the metadatas
+		$allMetadataVideoIds = array();
+		
+		foreach($argumentsArray as $argument)
+		{
+			$metadataTitle       = isset($argument['title']) ? addslashes($argument['title']) : null;
+			$metadataObservation = isset($argument['observation']) ? addslashes($argument['observation']) : null;
+			
+			assert(!is_null($metadataTitle) || !is_null($metadataObservation), ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Un argument n\'est pas correct.');
+			
+			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."' ORDER BY \"idVideo\";";
 
+			try
+			{
+				$resultQuery    = $this->executeSQL($query);
+				$allMatchingIds = pg_fetch_all_columns($resultQuery);
+				
+				if($allMatchingIds !== false)
+				{
+					foreach($allMatchingIds as $matchingId)
+						if(!in_array((int) $matchingId, $allMetadataVideoIds))
+							$allMetadataVideoIds[] = (int) $matchingId;
+				}
+			}
+			catch(Exception $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
+		
+		// Step 2 : find the videos
+		if(empty($allMetadataVideoIds))
+			return null;
+		
+		$allVideos = array();
+		
+		foreach($allMetadataVideoIds as $videoId)
+		{
+			$query = "SELECT \"idVideo\",\"idPatient\",\"filename\",\"title\" FROM \"public\".\"Video\" WHERE \"idVideo\" = ".$videoId.";";
+			
+			try
+			{
+				$resultQuery   = $this->executeSQL($query);
+				$matchingVideo = pg_fetch_assoc($resultQuery);
+				
+				if($matchingVideo === false)
+					throw new Exception(ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Aucune vidéo ne correspond à l\'identifiant '.$videoId.'.');
+				
+				$allVideos[] = $matchingVideo;
+			}
+			catch(Exception $ex)
+			{
+				echo $ex->getMessage();
+			}
+		}
+		
+		if(empty($allVideos))
+			return null;
+		
+		return $allVideos;
+	}
+	
 	function getAllVideo(){
-		try{
+		try
+		{
 			$res = $this->executeSQL("SELECT \"Video\".\"title\", \"Video\".\"idVideo\", \"Patient\".\"idPatient\", \"Patient\".\"name\" FROM \"public\".\"Video\" JOIN \"Patient\" ON \"Patient\".\"idPatient\" = \"Video\".\"idPatient\" ORDER BY \"Patient\".\"idPatient\", \"Patient\".\"name\", \"Video\".\"title\" ;");
 			$tmp = array();
 			while($row = pg_fetch_row($res))
 				array_push($tmp, array("Title" => $row[0], "IdVideo" => $row[1], "IdPatient" => $row[2], "Name" => $row[3]));
 			return $tmp;
-		} catch(Exception $e){
+		}
+		catch(Exception $e)
+		{
+			echo $e->getMessage();
+		}
+	}
+	function getListMetadataByTime($id_video){
+		try
+		{
+			if(is_numeric($id_video))
+			{
+				$res = $this->executeSQL("SELECT \"Tagger\".\"idMetadata\", \"Metadata\".\"title\", \"Metadata\".\"observation\", \"Tagger\".\"start\", \"Tagger\".\"end\" FROM \"public\".\"Metadata\" INNER JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"Tagger\".\"idVideo\" = ".$id_video." ORDER BY \"Tagger\".\"start\" ;");
+				if(pg_num_rows($res) > 0)
+				{
+					$tmp = array();
+					while($row = pg_fetch_row($res))
+						array_push($tmp, array("Id" => $row[0], "Title" => $row[1], "Observation" => $row[2], "Start" => $row[3], "End" => $row[4]));
+					return $tmp;
+				}
+				else
+					throw new Exception("ERREUR - Fonction getListMetadata(...) - Aucune donnees liees a cette Video");
+			}
+			else
+				throw new Exception("ERREUR - Fonction getListMetadata(...) - Verifier les types des parametres");
+		}
+		catch(Exception $e)
+		{
+			echo $e->getMessage();
+		}
+	}
+		
+	function getListMetadataByTitle($id_video){
+		try
+		{
+			if(is_numeric($id_video))
+			{
+				$res = $this->executeSQL("SELECT \"Tagger\".\"idMetadata\", \"Metadata\".\"title\", \"Metadata\".\"observation\", \"Tagger\".\"start\", \"Tagger\".\"end\" FROM \"public\".\"Metadata\" INNER JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"Tagger\".\"idVideo\" = ".$id_video." ORDER BY \"Metadata\".\"title\" ;");
+				if(pg_num_rows($res) > 0)
+				{
+					$tmp = array();
+					while($row = pg_fetch_row($res))
+						array_push($tmp, array("Id" => $row[0], "Title" => $row[1], "Observation" => $row[2], "Start" => $row[3], "End" => $row[4]));
+					return $tmp;
+				}
+				else
+					throw new Exception("ERREUR - Fonction getListMetadata(...) - Aucune donnees liees a cette Video");
+			}
+			else
+				throw new Exception("ERREUR - Fonction getListMetadata(...) - Verifier les types des parametres");
+		}
+		catch(Exception $e)
+		{
 			echo $e->getMessage();
 		}
 	}
