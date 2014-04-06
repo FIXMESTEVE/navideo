@@ -41,9 +41,14 @@ catch(Exception $ex)
         <meta charset="utf-8">
         <title>Test : Tag Menu (view)</title>
         <?php
+        /*
             $view->linkCSS();
             $view->linkJS();
+        */
         ?>
+        <link rel="stylesheet" type="text/css" href="../../css/tag.css">
+        <script type="text/javascript" src="../../js/tag.js"></script>
+        <script type="text/javascript" src="../../js/tag_menu.js"></script>
     </head>
     <body<?php if($view->onLoadJS() !== "") echo 'onload="'.$view->onLoadJS().';"'; ?>>
         <h1>Trier les tags</h1>
