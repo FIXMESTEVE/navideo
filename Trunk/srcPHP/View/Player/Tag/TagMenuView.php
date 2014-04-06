@@ -20,11 +20,11 @@ class TagMenuView implements View {
 
 			/* Initialisation of list of tags */
 			$tmp = $this->model->getListMetadataByTime($id_video);
-			for($i=0; $i<count($tmp); $i++)
+			for($i=0, $n=count($tmp); $i<$n; $i++)
 				array_push($this->tagsByTime, new TagView($tmp[$i]["Id"], $tmp[$i]["Title"], $tmp[$i]["Observation"], $tmp[$i]["Start"], $tmp[$i]["End"]));
 
 			$tmp = $this->model->getListMetadataByTitle($id_video);
-			for($i=0; $i<count($tmp); $i++)
+			for($i=0, $n=count($tmp); $i<$n; $i++)
 				array_push($this->tagsByTitle, new TagView($tmp[$i]["Id"], $tmp[$i]["Title"], $tmp[$i]["Observation"], $tmp[$i]["Start"], $tmp[$i]["End"]));
 
 		}catch(Exception $e){
@@ -34,23 +34,23 @@ class TagMenuView implements View {
 
 	function linkCSS(){
 		echo "<link rel=\"stylesheet\" type=\"test/css\" href=\"css/tag_menu.css\">";
-		$this->tagsByTime[0]->linkCSS();
+		if(!empty($this->tagsByTime)) $this->tagsByTime[0]->linkCSS();
 	}
 
 	function linkJS(){
-		$this->tagsByTime[0]->linkJS();
+		if(!empty($this->tagsByTime)) $this->tagsByTime[0]->linkJS();
 		echo "<script src=\"js/tag_menu.js\"></script>";
 	}
 
 	function onLoadJS(){ return ""; }
 
 	function drawTagsByTime(){
-		for($i=0; $i<count($this->tagsByTime); $i++)
+		for($i=0, $n=count($this->tagsByTime); $i<$n; $i++)
 			$this->tagsByTime[$i]->drawTemporality();
 	}
 
 	function drawTagsByTitle(){
-		for($i=0; $i<count($this->tagsByTitle); $i++){
+		for($i=0, $n=count($this->tagsByTitle); $i<$n-1; $i++){
 			if(!$this->tagsByTitle[$i]->isSameTag($this->tagsByTitle[$i+1]))
 				$this->tagsByTitle[$i]->drawTemporality();
 			else{
@@ -84,5 +84,7 @@ class TagMenuView implements View {
 		echo "</section>";
 	}
 
+	function countNumberOfTags() { return count($this->tagsByTime); }
+	
 }
 ?>
