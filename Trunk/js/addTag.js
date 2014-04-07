@@ -41,6 +41,22 @@ function sameVideoAnchor(srcPlayer){
 	}
 }	
 
+function testText(){
+	var title = document.forms["modif_tag"].elements["title"].value;
+	var descriptif = document.forms["modif_tag"].elements["descriptif"].value;
+	var proba = document.forms["modif_tag"].elements["prob"].value;
+	if(title != "")
+		alert("Titre : " + 
+			title + 
+			"\n" + 
+			"Descriptif : " + 
+			descriptif + 
+			"\n" + 
+			"Probabilité : " + 
+			proba + "%");
+	soundClick();
+}
+
 function newIntervalTag(init,end){
 	document.getElementById("newTagTest").innerHTML = "Ancre A = " + init + " & Ancre B = " + end + ".";
 	//Mettre la vrai fonction de création du tag ultérieurement ! 
