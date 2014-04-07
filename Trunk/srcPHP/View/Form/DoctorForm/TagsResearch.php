@@ -33,7 +33,7 @@ class TagsResearch extends FormView
 			return;
 		}
 		
-		$regexp = '#&quot;([^&quot;]*)&quot;#U';
+		$regexp = '#&quot;([^&quot;]+)&quot;#U';
 		
 		$titles       = htmlspecialchars($_POST['titles']);
 		$observations = htmlspecialchars($_POST['observations']);
