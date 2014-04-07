@@ -37,8 +37,9 @@ class DoctorMenu implements MenuInterface{
 		echo "<a id=\"deconnexion\" class=\"btn btn-default\" href=\"index.php?disconnect=true\">Deconnexion</a>";
 		echo "</header>";
 		echo "<nav>";
-		echo "<a href=\"index.php\" class=\"btn btn-default\"><label>Visionnage</label></a>";
-		echo "<a href=\"index.php?form=manage_patient\" class=\"btn btn-default\"><label>Gestion des Patients</label></a>";
+		echo "<a href=\"index.php\"><label>Liste des Patients</label></a>";
+		echo "<a href=\"index.php?section=mosaic\"><label>Mosaique</label></a>";
+		echo "<a href=\"index.php?form=manage_patient\"><label>Gestion des Patients</label></a>";
 		echo "</nav>";
 	}
 }

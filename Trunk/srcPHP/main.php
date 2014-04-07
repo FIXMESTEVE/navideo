@@ -41,7 +41,7 @@ class Main{
 		$this->section->draw();
 		$this->addTagMenu->draw();
 		
-		
+		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
 		echo "<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->";
 	    echo "<script src=\"js/jquery.min.js\"></script>";
 	    echo "<!-- Include all compiled plugins (below), or include individual files as needed -->";

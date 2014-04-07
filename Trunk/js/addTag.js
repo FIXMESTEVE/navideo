@@ -1,8 +1,10 @@
-
+﻿
 var srcVideo;
 var boolAnchor = 0;
 var posA = 0;
 var posB = 0;
+var memPosA = 0;
+var memPosB = 0;
 var player;
 
 
@@ -21,7 +23,9 @@ function anchorTag(button){
 		posB = player.currentTime;
 		boolAnchor = 0;
 		if((posB - posA) > 0){
-			newIntervalTag(posA,posB);
+			memPosA = posA;
+			memPosB = posB;
+			printIntervalTag(memPosA,memPosB);
 		}
 		else{
 		document.getElementById("newTagTest").innerHTML = "Ancre A = null & Ancre B = null. Erreur : Ancre A doit se situer avant Ancre B."
@@ -35,14 +39,62 @@ function anchorTag(button){
 function sameVideoAnchor(srcPlayer){
 	if(srcVideo != srcPlayer){
 		srcVideo = srcPlayer;
-		posA = null;
-		posB = null;
+		posA = 0;
+		posB = 0;
 		boolAnchor = 0;
 	}
 }	
 
-function newIntervalTag(init,end){
+function declareTag(){
+	soundClick();
+	var title = document.forms["modif_tag"].elements["title"].value;
+	var descriptif = document.forms["modif_tag"].elements["descriptif"].value;
+	var proba = document.forms["modif_tag"].elements["prob"].value;
+	if((memPosB - memPosA) > 0)
+		{
+			if(title != ""){
+				alert("Titre : " + 
+					title + 
+					"\n" + 
+					"Descriptif : " + 
+					descriptif + 
+					"\n" + 
+					"Probabilité : " + 
+					proba + "% \n" + 
+					"Ancre A : " + memPosA + 
+					" sec \nAncre B : " + memPosB + " sec");
+				//TODO: ici mettre la requête SQL, memPosA = début, memPosB = fin, 
+				//ceux sont des int mais on peut les convertir en time via la méthode secToTime (et sa méthode inverse time->sec : timeToSec).
+				//title : titre du tag.
+				//descriptif : résumé du tag.
+				//proba : probabilité du tag (0 à 100).
+				//On peut mettre la requête avant ou à la place de l'alert qui appelle tout ça.
+				memPosA = 0;
+				memPosB = 0;
+			}
+		}
+	else{
+		alert("Il est nécessaire de déterminer le début (Ancre A) et la fin (Ancre B) de l'interval.");
+	}
+}
+
+function printIntervalTag(init,end){
 	document.getElementById("newTagTest").innerHTML = "Ancre A = " + init + " & Ancre B = " + end + ".";
-	//Mettre la vrai fonction de cr�ation du tag ult�rieurement ! 
 }
 	
+function secToTime(intSec){
+	var hour = (intSec/3600);
+	hour = hour - hour % 1;
+	var min = (intSec - (hour * 3600)) / 60;
+	min = min - min % 1;
+	var sec = intSec - (min * 60) - (hour * 3600);
+	sec = sec - sec % 1;
+	var timeIntSec = (""+hour+":"+min+":"+sec);
+	return(timeIntSec);
+}
+
+function timeToSec(charTime){
+	var secArray = charTime.split(':');
+	var intSec = parseInt(secArray[0])*3600 + parseInt(secArray[1])*60 + parseInt(secArray[2]);
+	return(intSec);
+}

@@ -5,11 +5,7 @@ $_SESSION['research']['videos'] = null;
 
 header('Content-type: text/html; charset=utf-8');
 
-error_reporting(E_ALL);
-ini_set('display_errors', E_ALL);
-
-$root = str_replace(basename(__FILE__), '', __FILE__);
-$root = str_replace(basename($root), '', $root);
+require_once('common.php');
 
 require_once($root.'Model/Model.php');
 require_once($root.'Model/ResearchModel.php');
@@ -17,10 +13,6 @@ require_once($root.'Model/ResearchModel.php');
 require_once($root.'View/View.php');
 require_once($root.'View/Form/FormView.php');
 require_once($root.'View/Form/DoctorForm/TagsResearch.php');
-
-assert_options(ASSERT_ACTIVE, 1);
-assert_options(ASSERT_WARNING, 0);
-assert_options(ASSERT_QUIET_EVAL, 1);
 
 try
 {
