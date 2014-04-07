@@ -90,28 +90,28 @@ class ResearchModel extends Model{
 	 */
 	function getListMetadata($videoId) {
 		assert(is_numeric($videoId), get_class($this).'::'.__FUNCTION__.'($videoId) - Le paramètre doit être un entier.');
-		
-		$queryMetadata = "SELECT * FROM \"public\".\"Metadata\" WHERE \"idVideo\" = ".$videoId." ORDER BY \"idVideo\";";
-		
+
+		$queryMetadata = "SELECT * FROM \"public\".\"Metadata\" INNER JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"idVideo\" = ".$videoId." ORDER BY \"idVideo\";";
+
 		try
 		{
 			$resultQuery       = $this->executeSQL($queryMetadata);
 			$matchingMetadatas = pg_fetch_all($resultQuery);
-			
+
 			if($matchingMetadatas === false)
 				return null;
-			
+
 			$allMetadatas = array();
-			
+
 			foreach($matchingMetadatas as $metadata)
 			{
 				$queryTagger    = "SELECT \"start\", \"end\" FROM \"public\".\"Tagger\" WHERE \"idMetadata\" = ".$metadata['idMetadata']." AND \"idVideo\" = ".$metadata['idVideo'].";";
 				$resultQuery    = $this->executeSQL($queryTagger);
 				$matchingTagger = pg_fetch_assoc($resultQuery);
-				
+
 				$start = "00:00:00";
 				$end   = "00:00:00";
-				
+
 				if($matchingTagger !== false)
 				{
 					$start = $matchingTagger['start'];
@@ -155,7 +155,7 @@ class ResearchModel extends Model{
 			echo $e->getMessage();
 		}
 	}
-	
+
 	/**
 	 * Find all videos matching with metadatas depending on arguments.
 	 * @param $argumentsArray this is an array of all arguments
@@ -165,24 +165,24 @@ class ResearchModel extends Model{
 	 */
 	function findAllVideosMatchingMetadatasArguments($argumentsArray) {
 		assert(is_array($argumentsArray), get_class($this).'::'.__FUNCTION__.'($argumentsArray) - Le paramètre n\'est pas correct.');
-		
+
 		// Step 1 : find the metadatas
 		$allMetadataVideoIds = array();
-		
+
 		foreach($argumentsArray as $argument)
 		{
 			$metadataTitle       = isset($argument['title']) ? addslashes($argument['title']) : null;
 			$metadataObservation = isset($argument['observation']) ? addslashes($argument['observation']) : null;
-			
+
 			assert(!is_null($metadataTitle) || !is_null($metadataObservation), ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Un argument n\'est pas correct.');
-			
-			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."' ORDER BY \"idVideo\";";
+
+			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" INNER JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."' ORDER BY \"idVideo\";";
 
 			try
 			{
 				$resultQuery    = $this->executeSQL($query);
 				$allMatchingIds = pg_fetch_all_columns($resultQuery);
-				
+
 				if($allMatchingIds !== false)
 				{
 					foreach($allMatchingIds as $matchingId)
