@@ -63,6 +63,12 @@ function declareTag(){
 					proba + "% \n" + 
 					"Ancre A : " + memPosA + 
 					" sec \nAncre B : " + memPosB + " sec");
+				//TODO: ici mettre la requête SQL, memPosA = début, memPosB = fin, 
+				//ceux sont des int mais on peut les convertir en time via la méthode secToTime (et sa méthode inverse time->sec : timeToSec).
+				//title : titre du tag.
+				//descriptif : résumé du tag.
+				//proba : probabilité du tag (0 à 100).
+				//On peut mettre la requête avant ou à la place de l'alert qui appelle tout ça.
 				memPosA = 0;
 				memPosB = 0;
 			}
