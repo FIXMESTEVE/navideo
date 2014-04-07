@@ -42,6 +42,23 @@ try
             
             $res = $model->findAllVideosMatchingMetadatasArguments($metaArgs);
         }
+        else if(strcasecmp($_GET['form'], 'listMetadatas') == 0
+                && isset($_POST['id'], $_POST['sort']) && is_numeric($_POST['id']))
+        {
+            $id   = intval($_POST['id']);
+            $sort = htmlspecialchars($_POST['sort']);
+            
+            if(strcasecmp($sort, 'none') == 0)
+                $res = $model->getListMetadata($id);
+            else if(strcasecmp($sort, 'time') == 0)
+                $res = $model->getListMetadataByTime($id);
+            else if(strcasecmp($sort, 'title') == 0)
+                $res = $model->getListMetadataByTitle($id);
+        }
+        else if(strcasecmp($_GET['form'], 'allVideos') == 0)
+        {
+            $res = $model->getAllVideo();
+        }
         else if(strcasecmp($_GET['form'], 'login') == 0
                 && isset($_POST['type'], $_POST['id'], $_POST['pwd']))
         {
@@ -67,6 +84,12 @@ try
                 $res = $model->getListOfPatients($id);
             else if(strcasecmp($has, 'notin') == 0)
                 $res = $model->getListOfNotPatients($id);
+        }
+        else if(strcasecmp($_GET['form'], 'patientVideos') == 0
+                && isset($_POST['id']) && is_numeric($_POST['id']))
+        {
+            $id  = intval($_POST['id']);
+            $res = $model->getVideosPatient($id);
         }
 
     $model = null;
@@ -94,7 +117,7 @@ catch(Exception $ex)
             ?>
                     <pre>
                         <?php
-                            if(is_null($res) || $res === false)
+                            if(is_null($res) || $res === false || empty($res))
                                 echo 'Aucun résultat.';
                             else
                                 print_r($res);
@@ -115,6 +138,26 @@ catch(Exception $ex)
                 </table>
                 <input type="button" onclick="addRow('metaArgs');" value="Ajouter des arguments"><br>
                 <input type="submit" value="Chercher">
+            </form>
+        </section>
+        <section>
+            <h1>Liste des métadonnées d'une vidéo</h1>
+            <form method="post" action="?form=listMetadatas">
+                <label for="videoSort">Tri : </label>
+                <select id="videoSort" name="sort">
+                    <option value="none" selected="true">aucun</option>
+                    <option value="time">chronologique</option>
+                    <option value="title">titre</option>
+                </select><br>
+                <label for="videoId">ID vidéo : </label>
+                <input type="text" id="videoId" name="id"><br>
+                <input type="submit" value="Chercher">
+            </form>
+        </section>
+        <section>
+            <h1>Afficher toutes les vidéos</h1>
+            <form method="post" action="?form=allVideos">
+                <input type="submit" value="Afficher">
             </form>
         </section>
         <section>
@@ -152,7 +195,15 @@ catch(Exception $ex)
                     <option value="in" selected="true">oui</option>
                     <option value="notin">non</option>
                 </select><br>
-                <input type="submit" value="Connexion">
+                <input type="submit" value="Chercher">
+            </form>
+        </section>
+        <section>
+            <h1>Afficher les vidéos d'un patient</h1>
+            <form method="post" action="?form=patientVideos">
+                <label for="patientId">ID patient : </label>
+                <input type="text" id="patientId" name="id"><br>
+                <input type="submit" value="Afficher">
             </form>
         </section>
     </body>
