@@ -1,6 +1,7 @@
 <?php
 include_once "srcPHP/View/Form/DoctorForm/ManagePatient.php";
 include_once "srcPHP/View/Form/DoctorForm/CreatePatient.php";
+include_once "srcPHP/View/Section/DoctorSection/SendXML.php";
 include_once "srcPHP/View/Section/InterfaceSectionView.php";
 include_once "srcPHP/View/Section/DoctorSection/ListPatientView.php";
 
@@ -27,6 +28,8 @@ class SectionDoctorView implements InterfaceSectionView{
 			$this->context = new ManagePatient("index.php", $this->id_doctor);
 		else if(isset($_GET) && isset($_GET["form"]) && $_GET["form"] == "create_patient")
 			$this->context = new CreatePatient("index.php");
+		else if(isset($_GET) && isset($_GET["sendXML"]) && $_GET["sendXML"] == "true")
+			$this->context = new SendXML();
 		else
 			$this->context = new ListPatientView($this->id_doctor);
 	}

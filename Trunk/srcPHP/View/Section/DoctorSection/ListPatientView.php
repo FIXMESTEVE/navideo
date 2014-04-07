@@ -49,8 +49,10 @@ class ListPatientView implements View{
 				if(isset($_GET) && isset($_GET["patient"]) && !empty($_GET["patient"]) && is_numeric($_GET["patient"]) && $this->patientList[$i]["Id"] == $_GET["patient"]){
 					if(count($this->videoList) > 0){
 						echo "<ul id=\"VideoList\" type=none>";
-						for($j=0; $j<count($this->videoList); $j++)
-							echo "<li onclick=\"showVideo(".$_GET["patient"].",'".$this->videoList[$j]["Filename"]."');\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\">".$this->videoList[$j]["Title"]."</li>";
+						for($j=0; $j<count($this->videoList); $j++){
+//							echo "<li onclick=\"showVideo(".$_GET["patient"].",'".$this->videoList[$j]["Filename"]."');\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\">".$this->videoList[$j]["Title"]."</li>";
+							echo "<li><span onclick=\"showVideo(".$_GET["patient"].",'".$this->videoList[$j]["Filename"]."');\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\"><label>".$this->videoList[$j]["Title"]."</label></span><a href=\"index.php?sendXML=true\" ><img src=\"azer\"/></a></li>";
+						}
 						echo "</ul>";
 					}
 					else
