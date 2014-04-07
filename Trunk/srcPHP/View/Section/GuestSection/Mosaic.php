@@ -32,11 +32,14 @@ class Mosaic implements View{
 					}
 					echo "<li>";
 					echo "<h3>".$this->array[$i]["Name"]." - ".$this->array[$i]["IdPatient"]."</h3>";
-					echo "<ul class=\"videos\">";
+					echo "<ul>";
 				}
 				//Video Suivante
-				echo "<li class=\"video\">";
+				echo "<li>";
+				echo "<span>";
 				echo "<a href=\"index.php?play=".$this->array[$i]["IdVideo"]."\" ><img src=\"data/video.png\" /></a>";
+				echo "<label>".$this->array[$i]["Title"]."</label>";
+				echo "</span>";
 				echo "</li>";
 			}
 		echo "</ul>";

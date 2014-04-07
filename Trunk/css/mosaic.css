@@ -1,7 +1,31 @@
 .patients{
-	color : white;
+	color : black;
+	list-style-type : none;
+	width : 100%;
+	height : auto;
 }
 
-.patients li .videos li img{
+.patients li{
+	width : 100%;
+	height : auto;
+}
+
+.patients li h3{
+	width : 100%;
+	float : left;
+}
+
+.patients li ul{
+	width : 100%;
+	list-style-type : none;
+}
+
+.patients li ul li span{
+	float : left;
 	width : 20%;
 }
+
+.patients li ul li span img{
+	width : 100%;
+}
+
