@@ -23,7 +23,7 @@ class VideoView implements View{
 	function onLoadJS(){ return ""; }
 
 	function draw(){
-		echo "<video controls=\"controls\"> <source src=\"".$this->filename."\">  </video>";
+		echo "<video id=\"myvideo\" controls=\"controls\"> <source src=\"".$this->filename."\">  </video>";
 	}
 }
 ?>
