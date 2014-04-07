@@ -1,12 +1,12 @@
 <?php
 include_once "srcPHP/View/Form/DoctorForm/ManagePatient.php";
 include_once "srcPHP/View/Form/DoctorForm/CreatePatient.php";
+include_once "srcPHP/View/Form/DoctorForm/SendXML.php";
 
 include_once "srcPHP/View/Section/InterfaceSectionView.php";
 
 include_once "srcPHP/View/Section/GuestSection/Mosaic.php";
 
-include_once "srcPHP/View/Section/DoctorSection/SendXML.php";
 include_once "srcPHP/View/Section/DoctorSection/ListPatientView.php";
 
 class SectionDoctorView implements InterfaceSectionView{
