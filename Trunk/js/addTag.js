@@ -74,6 +74,21 @@ function declareTag(){
 
 function printIntervalTag(init,end){
 	document.getElementById("newTagTest").innerHTML = "Ancre A = " + init + " & Ancre B = " + end + ".";
-	//Mettre la vrai fonction de création du tag ultérieurement ! 
 }
 	
+function secToTime(intSec){
+	var hour = (intSec/3600);
+	hour = hour - hour % 1;
+	var min = (intSec - (hour * 3600)) / 60;
+	min = min - min % 1;
+	var sec = intSec - (min * 60) - (hour * 3600);
+	sec = sec - sec % 1;
+	var timeIntSec = (""+hour+":"+min+":"+sec);
+	return(timeIntSec);
+}
+
+function timeToSec(charTime){
+	var secArray = charTime.split(':');
+	var intSec = parseInt(secArray[0])*3600 + parseInt(secArray[1])*60 + parseInt(secArray[2]);
+	return(intSec);
+}
