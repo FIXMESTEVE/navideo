@@ -4,14 +4,16 @@ include_once "srcPHP/View/Player/Tag/TagMenuView.php";
 include_once "srcPHP/View/Player/Video/VideoView.php";
 
 class PlayerView implements View{
-	var $video;
-	var $tags;
+	var $video = NULL;
+	var $tags = NULL;
+	var $start = NULL;
 
-	function PlayerView($filename="data/video.mp4"){
+	function PlayerView($filename="data/video.mp4", $start=0){
 		try{
-			if(is_string($filename)){
+			if(is_string($filename) && is_numeric($start)){
 				$this->video = new VideoView($filename);
 				$this->tags = new TagMenuView();
+				$this->start = $start;
 			}
 			else
 				throw new Exception("ERREUR - Fonction PlayerView(...) - Verifier les types des parametres");
@@ -32,7 +34,7 @@ class PlayerView implements View{
 		echo "<script src=\"js/player.js\"> </script>";
 	}
 
-	function onLoadJS(){ return "adaptCSSPlayer();"; }
+	function onLoadJS(){ return "adaptCSSPlayer();onClickTag(".$this->start.");"; }
 
 	function draw(){
 		echo "<section id=\"player\">";
