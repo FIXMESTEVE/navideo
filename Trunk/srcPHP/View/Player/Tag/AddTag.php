@@ -4,18 +4,17 @@ class AddTag{
 	function draw(){
 		echo "<script type=\"text/javascript\" src=\"js/addTag.js\"></script>";	
 		
-		echo "<br>";
+		echo "<div id=\"modifTag\">";
+		
 		echo "<div id=\"newTagTest\">";
-		echo "Ancre A = null & Ancre B = null (sec)";
+		echo "Ancre A = null & Ancre B = null";
 		echo "</div>";
 		echo "<button onClick=\"anchorTag(this);\">Etiquettage A->B</button>";
+		echo "<br>";
 		
-		echo "<div id=\"modifTag\">";
 		echo "<form name=\"modif_tag\">";
 		echo "<fieldset>";
 		echo "<legend>Ajout d'étiquette</legend>";
-		
-		echo "<p>";
 		
 		echo "<label for=\"title\">Titre de l'étiquette</label> :"; 
 		echo "<input type=\"text\" name=\"title\" id=\"title\" required />";
@@ -29,9 +28,7 @@ class AddTag{
 		echo "<input type=\"range\" min=0 max=100 step=1 name=\"prob\" id=\"prob\"/>";
 		echo "<br>";
 
-		echo "<button onClick=\"testText();\">Valider</button>";
-		
-		echo "</p>";
+		echo "<button onClick=\"declareTag();\">Valider</button>";
 
 		echo "</fieldset>";
 		echo "</form>";
