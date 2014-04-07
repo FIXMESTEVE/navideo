@@ -13,34 +13,56 @@ try
     
     $res = null;
     
-    if(isset($_GET['form']) && strcasecmp($_GET['form'], 'searchMetaArgs') == 0
-       && isset($_POST['title'], $_POST['observation']))
-    {
-        $metaArgs = array();
-        
-        $nbrOfTitles = count($_POST['title']);
-        $nbrOfObservations = count($_POST['observation']);
-        
-        assert($nbrOfTitles === $nbrOfObservations);
-        
-        for($i=0; $i<$nbrOfTitles; ++$i)
+    if(isset($_GET['form']))
+        if(strcasecmp($_GET['form'], 'searchMetaArgs') == 0
+            && isset($_POST['title'], $_POST['observation']))
         {
-            $title = htmlspecialchars($_POST['title'][$i]);
-            $observation = htmlspecialchars($_POST['observation'][$i]);
+            $metaArgs = array();
             
-            $arg = array();
+            $nbrOfTitles = count($_POST['title']);
+            $nbrOfObservations = count($_POST['observation']);
             
-            if($title !== '')
-                $arg['title'] = $title;
-            if($observation !== '')
-                $arg['observation'] = $observation;
+            assert($nbrOfTitles === $nbrOfObservations);
             
-            if(!empty($arg))
-                $metaArgs[] = $arg;
+            for($i=0; $i<$nbrOfTitles; ++$i)
+            {
+                $title = htmlspecialchars($_POST['title'][$i]);
+                $observation = htmlspecialchars($_POST['observation'][$i]);
+                
+                $arg = array();
+                
+                if($title !== '')
+                    $arg['title'] = $title;
+                if($observation !== '')
+                    $arg['observation'] = $observation;
+                
+                if(!empty($arg))
+                    $metaArgs[] = $arg;
+            }
+            
+            $res = $model->findAllVideosMatchingMetadatasArguments($metaArgs);
         }
-        
-        $res = $model->findAllVideosMatchingMetadatasArguments($metaArgs);
-    }
+        else if(strcasecmp($_GET['form'], 'login') == 0
+                && isset($_POST['type'], $_POST['id'], $_POST['pwd']))
+        {
+            $type = htmlspecialchars($_POST['type']);
+            $id   = htmlspecialchars($_POST['id']);
+            $pwd  = htmlspecialchars($_POST['pwd']);
+            
+            if($id !== '' && $pwd !== '')
+            {
+                if(strcasecmp($type, 'admin') == 0)
+                    $res = $model->getAdministrator($id, $pwd);
+                else if(strcasecmp($type, 'doctor') == 0)
+                    $res = $model->getDoctor($id, $pwd);
+            }
+        }
+        else if(strcasecmp($_GET['form'], 'listPatients') == 0
+                && isset($_POST['doctorId']) && is_numeric($_POST['doctorId']))
+        {
+            $id  = intval($_POST['doctorId']);
+            $res = $model->getListOfPatients($id);
+        }
 
     $model = null;
 }
@@ -67,7 +89,7 @@ catch(Exception $ex)
             ?>
                     <pre>
                         <?php
-                            if(is_null($res))
+                            if(is_null($res) || $res === false)
                                 echo 'Aucun résultat.';
                             else
                                 print_r($res);
@@ -88,6 +110,39 @@ catch(Exception $ex)
                 </table>
                 <input type="button" onclick="addRow('metaArgs');" value="Ajouter des arguments"><br>
                 <input type="submit" value="Chercher">
+            </form>
+        </section>
+        <section>
+            <h1>Identification</h1>
+            <form method="post" action="?form=login">
+                <table>
+                    <tr>
+                        <td><label for="logType">Type :</label></td>
+                        <td>
+                            <select id="logType" name="type">
+                                <option value="admin" selected="true">admin</option>
+                                <option value="doctor">doctor</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="logId">Identifiant :</label></td>
+                        <td><input type="text" id="logId" name="id"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="logPwd">Mot de passe :</label></td>
+                        <td><input type="password" id="logPwd" name="pwd"></td>
+                    </tr>
+                </table>
+                <input type="submit" value="Connexion">
+            </form>
+        </section>
+        <section>
+            <h1>Liste de patients</h1>
+            <form method="post" action="?form=listPatients">
+                <label for="doctorId">ID docteur : </label>
+                <input type="text" id="doctorId" name="doctorId"><br>
+                <input type="submit" value="Connexion">
             </form>
         </section>
     </body>
