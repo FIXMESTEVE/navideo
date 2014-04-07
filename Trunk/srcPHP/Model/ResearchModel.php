@@ -176,7 +176,7 @@ class ResearchModel extends Model{
 			
 			assert(!is_null($metadataTitle) || !is_null($metadataObservation), ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Un argument n\'est pas correct.');
 			
-			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."' ORDER BY \"idVideo\";";
+			$query = "SELECT \"idVideo\" FROM \"public\".\"Metadata\" JOIN \"Tagger\" ON \"Tagger\".\"idMetadata\" = \"Metadata\".\"idMetadata\" WHERE \"title\" = '".$metadataTitle."' OR \"observation\" = '".$metadataObservation."' ORDER BY \"idVideo\";";
 
 			try
 			{
