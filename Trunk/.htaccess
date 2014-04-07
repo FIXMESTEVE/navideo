@@ -1,0 +1,6 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine on
+    RewriteRule ^([0-9]+)$ index.php?play=$1
+</IfModule>

@@ -108,15 +108,29 @@ $(function () {
         }
         data.formData = inputs.serializeArray();
 
-        //console.dir('file NAME: ' + data.result.files[0].name + ' video TITLE: ' + data.formData[0].value + '\n');
-        //console.dir(data);
-
         $.ajax({
             type: 'POST',
             url: 'server/php/videoProcess.php',
             data: {
                 filename: data.result.files[0].name,
                 title: data.formData[0].value
+            },
+            success: function(data) {
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+            },
+            cache: false
+        });
+    });
+
+    $('#fileupload').bind('fileuploaddestroyed', function (e, data){
+        var filenameFromUrl = data.url.substring(data.url.indexOf("=") + 1);
+        $.ajax({
+            type: 'POST',
+            url: 'server/php/videoDeletion.php',
+            data: {
+                filename: filenameFromUrl,
             },
             success: function(data) {
             },
