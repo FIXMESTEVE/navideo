@@ -128,7 +128,7 @@ catch(Exception $ex)
             ?>
         </header>
         <section>
-            <h1>Recherche de vidéo(s)</h1>
+            <h1>Recherche de vidéo(s) avec les métadonnées</h1>
             <form method="post" action="?form=searchMetaArgs">
                 <table id="metaArgs">
                     <tr>
