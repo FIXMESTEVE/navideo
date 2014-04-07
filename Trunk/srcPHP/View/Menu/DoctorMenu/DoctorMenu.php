@@ -34,11 +34,11 @@ class DoctorMenu implements MenuInterface{
 	function draw(){
 		echo "<header>";
 		echo "<label id=\"welcome\" >Bonjour ".$this->name."</label>";
-		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
+		echo "<a id=\"deconnexion\" class=\"btn btn-default\" href=\"index.php?disconnect=true\">Deconnexion</a>";
 		echo "</header>";
 		echo "<nav>";
-		echo "<a href=\"index.php\"><label>Visionnage</label></a>";
-		echo "<a href=\"index.php?form=manage_patient\"><label>Gestion des Patients</label></a>";
+		echo "<a href=\"index.php\" class=\"btn btn-default\"><label>Visionnage</label></a>";
+		echo "<a href=\"index.php?form=manage_patient\" class=\"btn btn-default\"><label>Gestion des Patients</label></a>";
 		echo "</nav>";
 	}
 }

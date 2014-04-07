@@ -28,20 +28,6 @@ class Connection extends FormView{
 		echo "</div>";
 		echo "<input class=\"btn btn-default\" type=\"submit\" value=\"Connexion\">";
 		echo "</form>";
-		
-		/*
-		echo "<form class=\"form-inline\" role=\"form\" id=\"connexion\" action=\"".$this->action."\">";
-		echo  "<div class=\"form-group\">";
-		echo    "<label class=\"sr-only\" for=\"Login\">Nom d'utilisateur</label>";
-		echo    "<input type=\"email\" class=\"form-control\" id=\"Login\" name=\"Login\" placeholder=\"Enter email\">";
-		echo  "</div>";
-		echo  "<div class=\"form-group\">";
-		echo    "<label class=\"sr-only\" for=\"Password\">Mot de passe</label>";
-		echo    "<input type=\"password\" class=\"form-control\" id=\"Password\" name=\"Password\" placeholder="Password">";
-		echo  "</div>";
-		echo  "<button type=\"submit\" class=\"btn btn-default\">Connexion</button>";
-		echo "</form>";
-		*/
 	}
 }
 
