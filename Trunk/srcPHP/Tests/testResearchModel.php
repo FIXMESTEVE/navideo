@@ -15,7 +15,7 @@ try
     
     if(isset($_GET['form']))
         if(strcasecmp($_GET['form'], 'searchMetaArgs') == 0
-            && isset($_POST['title'], $_POST['observation']))
+            && isset($_POST['title'], $_POST['observation']) && !empty($_POST['title']) && !empty($_POST['observation']))
         {
             $metaArgs = array();
             
@@ -58,10 +58,15 @@ try
             }
         }
         else if(strcasecmp($_GET['form'], 'listPatients') == 0
-                && isset($_POST['doctorId']) && is_numeric($_POST['doctorId']))
+                && isset($_POST['id'], $_POST['has']) && is_numeric($_POST['id']))
         {
-            $id  = intval($_POST['doctorId']);
-            $res = $model->getListOfPatients($id);
+            $id  = intval($_POST['id']);
+            $has = htmlspecialchars($_POST['has']);
+            
+            if(strcasecmp($has, 'in') == 0)
+                $res = $model->getListOfPatients($id);
+            else if(strcasecmp($has, 'notin') == 0)
+                $res = $model->getListOfNotPatients($id);
         }
 
     $model = null;
@@ -138,10 +143,15 @@ catch(Exception $ex)
             </form>
         </section>
         <section>
-            <h1>Liste de patients</h1>
+            <h1>Liste des (non) patients</h1>
             <form method="post" action="?form=listPatients">
                 <label for="doctorId">ID docteur : </label>
-                <input type="text" id="doctorId" name="doctorId"><br>
+                <input type="text" id="doctorId" name="id"><br>
+                <label for="doctorHas">Les patients appartiennent à la liste du docteur ? </label>
+                <select id="doctorHas" name="has">
+                    <option value="in" selected="true">oui</option>
+                    <option value="notin">non</option>
+                </select><br>
                 <input type="submit" value="Connexion">
             </form>
         </section>
