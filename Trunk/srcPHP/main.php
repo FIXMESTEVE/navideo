@@ -2,15 +2,18 @@
 
 include_once "View/Menu/MenuView.php";
 include_once "View/Section/SectionView.php";
+include_once "View/Player/Tag/AddTag.php";
 
 class Main{
 	var $menu;
 	var $section;
+	var $addTagMenu;
 
 	function Main(){
 		try{
 			$this->menu = new MenuView();
 			$this->section = new SectionView();
+			$this->addTagMenu = new AddTag();
 		} catch(Exception $e){
 			echo $e->getMessage();
 		}
@@ -35,12 +38,8 @@ class Main{
 
 		$this->menu->draw();
 		$this->section->draw();
-		echo "<div id=\"newTagTest\">";
-		echo "Ancre A = null & Ancre B = null";
-		echo "</div>";
-
-		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
-		echo "<button onClick=\"anchorTag(this);\">Etiquettage A->B</button>";
+		$this->addTagMenu->draw();
+		
 		
 		echo "</body>";
 		echo "</html>";
