@@ -117,20 +117,20 @@ class ResearchModel extends Model{
 					$start = $matchingTagger['start'];
 					$end   = $matchingTagger['end'];
 				}
-				
+
 				$metadata['start'] = $start;
 				$metadata['end']   = $end;
-				
+
 				$allMetadatas[] = $metadata;
 			}
-			
+
 			return $allMetadatas;
 		}
 		catch(Exception $ex)
 		{
 			echo $ex->getMessage();
 		}
-		
+
 		return null;
 	}
 
@@ -195,25 +195,25 @@ class ResearchModel extends Model{
 				echo $ex->getMessage();
 			}
 		}
-		
+
 		// Step 2 : find the videos
 		if(empty($allMetadataVideoIds))
 			return null;
-		
+
 		$allVideos = array();
-		
+
 		foreach($allMetadataVideoIds as $videoId)
 		{
 			$query = "SELECT \"idVideo\",\"idPatient\",\"filename\",\"title\" FROM \"public\".\"Video\" WHERE \"idVideo\" = ".$videoId.";";
-			
+
 			try
 			{
 				$resultQuery   = $this->executeSQL($query);
 				$matchingVideo = pg_fetch_assoc($resultQuery);
-				
+
 				if($matchingVideo === false)
 					throw new Exception(ResearchModel::class.'::'.__FUNCTION__.'($argumentsArray) - Aucune vidéo ne correspond à l\'identifiant '.$videoId.'.');
-				
+
 				$allVideos[] = $matchingVideo;
 			}
 			catch(Exception $ex)
@@ -221,13 +221,13 @@ class ResearchModel extends Model{
 				echo $ex->getMessage();
 			}
 		}
-		
+
 		if(empty($allVideos))
 			return null;
-		
+
 		return $allVideos;
 	}
-	
+
 	function getAllVideo(){
 		try
 		{
@@ -266,7 +266,7 @@ class ResearchModel extends Model{
 			echo $e->getMessage();
 		}
 	}
-		
+
 	function getListMetadataByTitle($id_video){
 		try
 		{
@@ -291,6 +291,23 @@ class ResearchModel extends Model{
 			echo $e->getMessage();
 		}
 	}
+
+	function getFilenameVideo($id){
+		try{
+			if(is_numeric($id)){
+				$res = $this->executeSQL("SELECT \"filename\" FROM \"public\".\"Video\" WHERE \"idVideo\" = ".$id." ;");
+				if($row = pg_fetch_row($res))
+					return $row[0];
+				else
+					throw new Exception("ERREUR - Fonction getFilenameVideo(...) - idVideo inexistant");
+			}
+			else
+				throw new Exception("ERREUR - Fonction getFilenameVideo(...) - Verifier les types des parametres");
+		} catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
 }
 
 ?>
