@@ -1,9 +1,20 @@
 <?php
+/**
+ *\file		AddDoctor.php
+ *\author	Antoine Laumond, Romain Fontaine, Tom Solacroup, Xavier Jouvenot
+ *\version	2.0
+ *\date		08 Avril 2014
+ *\brief	Defini le Formulaire gerant l'ajout d'un nouveau docteur
+ *
+ *\details	Cette classe permet à un utilisateur de creer un nouveau compte de Medecin,
+ *			qu'il pourra par la suite le réutiliser
+ */
 include_once "srcPHP/View/Form/FormView.php";
 include_once "srcPHP/Model/AdminModel/AdminModel.php";
 
 
 class AddDoctor extends FormView{
+	/* Variable */
 	var $model = NULL;
 
 	function AddDoctor($action){
