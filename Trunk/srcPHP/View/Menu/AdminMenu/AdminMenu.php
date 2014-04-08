@@ -34,7 +34,7 @@ class AdminMenu implements MenuInterface{
 	function draw(){
 		echo "<header>";
 		echo "<label id=\"welcome\">Bonjour ".$this->name."</label>";
-		echo "<a id=\"deconnexion\" href=\"index.php?disconnect=true\"><button>Deconnexion</button></a>";
+		echo "<a id=\"deconnexion\" class=\"btn btn-default\" href=\"index.php?disconnect=true\"><span class='glyphicon glyphicon-off'></span> Deconnexion</a>";
 		echo "</header>";
 		echo "<nav>";
 		echo "<a href=\"index.php?form=add_doctor\"><label>Ajouter un Docteur</label></a>";

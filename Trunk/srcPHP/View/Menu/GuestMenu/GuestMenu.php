@@ -30,8 +30,8 @@ class GuestMenu implements MenuInterface{
 		$this->formConnection->draw();
 		echo "</header>";
 		echo "<nav>";
-		echo "<a href=\"index.php\" >Mosaique</a>";
-		echo "<a href=\"index.php?form=add_doctor\">Creer un nouveau compte</a>";
+		echo "<a class='btn btn-default' href=\"index.php\" ><span class='glyphicon glyphicon-th'></span>Mosaique</a>";
+		echo "<a class='btn btn-default' href=\"index.php?form=add_doctor\"> <span class='glyphicon glyphicon-user'></span>Creer un nouveau compte</a>";
 		echo "</nav>";
 	}
 }

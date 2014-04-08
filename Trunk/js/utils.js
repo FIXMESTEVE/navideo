@@ -24,11 +24,11 @@ function hideMenu(button){
 	var stateMenu = document.getElementsByTagName("HEADER")[0].style.display;
 	if(stateMenu == "none"){
 		document.getElementsByTagName("HEADER")[0].style.display = "block";
-		button.textContent = "Cacher les menus";
+		button.textContent = "Cacher l'entete";
 	}
 	else{
 		document.getElementsByTagName("HEADER")[0].style.display = "none";
-		button.textContent = "Afficher les menus";
+		button.textContent = "Afficher l'entete";
 	}
 }
 	

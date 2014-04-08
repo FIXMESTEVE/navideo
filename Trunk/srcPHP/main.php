@@ -64,12 +64,13 @@ class Main{
 
 		echo "</head>";
 		echo "<body onload=".$this->menu->onLoadJS().$this->section->onLoadJS().">";
-
+		echo "<button class='btn btn-default btn-xs' onClick=\"hideMenu(this);\">Cacher l'entete</button>";
+		
 		$this->menu->draw();
 		$this->section->draw();
 		$this->addTagMenu->draw();
 		
-		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
+		
 
 	    echo "<!-- Include all compiled plugins (below), or include individual files as needed -->";
 	    echo "<script src=\"js/bootstrap.min.js\"></script>";

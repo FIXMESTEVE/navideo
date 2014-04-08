@@ -37,8 +37,8 @@ class Mosaic implements View{
 				//Video Suivante
 				echo "<li>";
 				echo "<span>";
-				echo "<a href=\"index.php?play=".$this->array[$i]["IdVideo"]."\" ><img src=\"modules/jQuery-File-Upload/server/php/files/video_thumbnails/video.png\" /></a>";
-//				echo "<a href=\"index.php?play=".$this->array[$i]["IdVideo"]."\" ><img src=\"modules/jQuery-File-Upload/server/php/files/video_thumbnails/".$this->array[$i]["IdVideo"]."\" /></a>";
+//				echo "<a href=\"index.php?play=".$this->array[$i]["IdVideo"]."\" ><img src=\"modules/jQuery-File-Upload/server/php/files/video_thumbnails/video.png\" /></a>";
+				echo "<a href=\"index.php?play=".$this->array[$i]["IdVideo"]."\" ><img src=\"modules/jQuery-File-Upload/server/php/files/video_thumbnails/".$this->array[$i]["IdVideo"].".jpg\" /></a>";
 				echo "<label>".$this->array[$i]["Title"]."</label>";
 				echo "</span>";
 				echo "</li>";

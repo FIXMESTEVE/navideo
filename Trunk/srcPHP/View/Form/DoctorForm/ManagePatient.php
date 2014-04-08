@@ -56,8 +56,8 @@ class ManagePatient extends FormView{
 		echo "</select>";
 		echo "</th>";
 		echo "<th>";
-		echo "<button type=\"button\" onclick=\"removePatient();\">"."<<"."</button>";
-		echo "<button type=\"button\" onclick=\"addPatient();\">".">>"."</button>";
+		echo "<button class='btn btn-default' type=\"button\" onclick=\"removePatient();\"><span class='glyphicon glyphicon-arrow-left'></span></button><br/>";
+		echo "<button class='btn btn-default' type=\"button\" onclick=\"addPatient();\"><span class='glyphicon glyphicon-arrow-right'></span></button>";
 		echo "</th>";
 		echo "<th>";
 		echo "<select name=\"mine[]\" size=15 id=\"mine\" multiple>";
@@ -67,10 +67,13 @@ class ManagePatient extends FormView{
 		echo "</th>";
 		echo "</tr>";
 		echo "</table>";
-		echo "<input type=\"submit\" value=\"Valider\" onclick=\"updatePatients();\">";
+		echo "<input type=\"submit\" class='btn btn-success' value=\"Valider\" onclick=\"updatePatients();\">";
 		echo "</form>";
-		echo "<button type=\"button\" onclick=\"goToCreateNewPatient();\">Creer un nouveau patient</button>";
+		echo "<button type=\"button\" class='btn btn-default' onclick=\"goToCreateNewPatient();\"><span class='glyphicon glyphicon-plus'></span>Creer un nouveau patient</button>";
 	
+		echo "<br/>";
+		echo "<br/>";
+		echo "<p><label>Attribution des videos aux patients.</label></p>";
 		echo "<div id='assignVideosToPatients'>";
 		echo "<select size=15 id=\"allPatients\">";
 		for($i=0; $i<count($this->listAllPatients); $i++)
