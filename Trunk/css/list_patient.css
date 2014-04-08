@@ -48,15 +48,13 @@
 	text-align : center;
 }
 
-#ListOfPatients #PatientList li #VideoList li span {
+#ListOfPatients #PatientList #VideoList li span{
 	width : 70%;
 	height : 100%;
 	float : left;
-	padding-top : 10%;
-	padding-bottom : 10%;
 }
 
-#ListOfPatients #PatientList li #VideoList li img{
+#ListOfPatients #PatientList #VideoList li img{
 	width : 30%;
 	margin : 0px;
 }
