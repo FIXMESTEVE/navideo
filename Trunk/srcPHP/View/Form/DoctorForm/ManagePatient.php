@@ -1,10 +1,21 @@
 <?php
+/**
+ *\file		ManagePatient.php
+ *\author	Antoine Laumond, Romain Fontaine, Tom Solacroup, Xavier Jouvenot
+ *\version	2.0
+ *\date		08 Avril 2014
+ *\brief	Defini le Formulaire gerant la liste des clients d'un patient et les video des ceux-ci.
+ *
+ *\details	Cette classe permet à un docteur de se rajouter ou de s'enlever des patients
+ *			et aussi de gerer les liens entre les patients et leurs videos.
+ */
 include_once "srcPHP/View/Form/FormView.php";
 include_once "srcPHP/Model/DoctorModel/DoctorModel.php";
 include_once "srcPHP/Model/ResearchModel.php";
 
 
 class ManagePatient extends FormView{
+	/* Variables */
 	var $model = NULL;
 	var $listNotPatient = NULL;
 	var $listPatient = NULL;
@@ -45,6 +56,7 @@ class ManagePatient extends FormView{
 	}
 
 	function draw(){
+		/* Gestion des patients */
 		echo "<form id=\"manage_doctor\" action=\"".$this->action."?form=manage_patient&execute=true\" method=\"post\">";
 		echo "<table>";
 		echo "<tr><th>Autres Patients</th><th></th><th>Mes Patients</th></tr>";

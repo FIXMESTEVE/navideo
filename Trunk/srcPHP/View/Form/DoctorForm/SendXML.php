@@ -1,4 +1,14 @@
 <?php
+/**
+ *\file		SendXML.php
+ *\author	Antoine Laumond, Romain Fontaine, Tom Solacroup, Xavier Jouvenot
+ *\version	2.0
+ *\date		08 Avril 2014
+ *\brief	Defini le Formulaire gerant l'envoi de fichier XML.
+ *
+ *\details	Cette classe permet de récupérer un fichier XML et de faire le lien entre les observations
+ *			qui y sont détaillés et la video.
+ */
 include_once "srcPHP/View/Form/FormView.php";
 include_once "srcPHP/Model/DoctorModel/DoctorModel.php";
 
@@ -32,11 +42,12 @@ class SendXML extends FormView{
 	function execute(){
 		if(isset($_GET) && isset($_GET["form"]) && $_GET["form"] === "sendXML" && isset($_GET["video"]) && isset($_GET["execute"]) && $_GET["execute"] === "true"){
 			if(!empty($_FILES["file"]["name"])){
-
+				/* Suppression des Tags déjà existant*/
 				$this->model->deleteMetadataOfVideo($this->video);
 				$dom = new DomDocument();
 				$dom->load($_FILES["file"]["tmp_name"]);
 				$i = 0;
+				/* Envoie des Tages dans la base de données*/
 				foreach($dom->getElementsByTagName("TITLE") as $titles){
 					$title = $titles->firstChild->nodeValue;
 					$obser = $dom->getElementsByTagName("OBSERVATION")->item($i)->firstChild->nodeValue;

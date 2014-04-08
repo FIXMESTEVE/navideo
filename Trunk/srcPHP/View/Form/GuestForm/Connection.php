@@ -1,4 +1,13 @@
 <?php
+/**
+ *\file		Connection.php
+ *\author	Antoine Laumond, Romain Fontaine, Tom Solacroup, Xavier Jouvenot
+ *\version	2.0
+ *\date		08 Avril 2014
+ *\brief	Defini le Formulaire gerant la connection d'un utilisateur
+ *
+ *\details	Cette classe permet à un utilisateur de se connecter en mettant a jour les identifiants courants
+ */
 include_once "srcPHP/View/Form/FormView.php";
 
 class Connection extends FormView{

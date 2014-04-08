@@ -1,4 +1,13 @@
 <?php
+/**
+ *\file		TagsResearch.php
+ *\author	Antoine Laumond, Romain Fontaine, Tom Solacroup, Xavier Jouvenot
+ *\version	2.0
+ *\date		08 Avril 2014
+ *\brief	Defini le Formulaire gerant la recherche des tags.
+ *
+ *\details	Cette classe permet à un docteur de se rechercher des tags à l'aide de mots clefs
+ */
 include_once('FormView.php');
 include_once('srcPHP/Model/ResearchModel.php');
 
