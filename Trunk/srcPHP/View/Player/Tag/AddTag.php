@@ -2,6 +2,8 @@
 
 class AddTag{
 	function draw(){
+		/* TODO: Finir l'implémentation de l'éditeur de tags
+		
 		echo "<script type=\"text/javascript\" src=\"js/addTag.js\"></script>";	
 		
 		echo "<div id=\"modifTag\">";
@@ -34,7 +36,7 @@ class AddTag{
 		echo "</form>";
 		echo "</div>";
 	
-	
+		*/
 	}
 }
 ?>

@@ -18,6 +18,8 @@ class ManagePatient extends FormView{
 				$this->model = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
 				$this->listNotPatient = $this->model->getListOfNotPatients($this->id_doctor);
 				$this->listPatient = $this->model->getListOfPatients($this->id_doctor);
+				$this->listAllPatients = $this->model->getListOfAllPatients();
+				$this->listAllVideos = $this->model->getCompleteVideoList();
 				$this->model = new DoctorModel("dbserver", "xjouveno", "xjouveno", "pdp");
 				$this->execute();
 			}
@@ -68,6 +70,18 @@ class ManagePatient extends FormView{
 		echo "<input type=\"submit\" value=\"Valider\" onclick=\"updatePatients();\">";
 		echo "</form>";
 		echo "<button type=\"button\" onclick=\"goToCreateNewPatient();\">Creer un nouveau patient</button>";
+	
+		echo "<div id='assignVideosToPatients'>";
+		echo "<select size=15 id=\"allPatients\">";
+		for($i=0; $i<count($this->listAllPatients); $i++)
+			echo "<option value='".$this->listAllPatients[$i]["Id"]."'>".$this->listAllPatients[$i]["Name"]." ".$this->listAllPatients[$i]["Id"]."</option>";
+		echo "</select>";
+
+		echo "<div id=\"videoList\">";
+    	for($i=0; $i<count($this->listAllVideos); $i++)
+			echo "<input type=\"checkbox\" name='".$this->listAllVideos[$i]["IdVideo"]."' value='".$this->listAllVideos[$i]["IdVideo"]."' disabled/>".$this->listAllVideos[$i]["Title"]."<br />";
+    	echo "</div>";
+    	echo "</div>";
 	}
 }
 

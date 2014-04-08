@@ -24,6 +24,7 @@ class Main{
 		echo "<!doctype html>";
 		echo "<html>";
 		echo "<head>";
+		echo "<meta http-equiv=\"Content-Type\" content=\"text/html;charset=UTF-8\">";
 		echo "<title>Projet De Programmation</title>";
 		echo "<script type=\"text/javascript\" src=\"js/SM2/soundmanager2.js\"></script>";
 		echo "<script type=\"text/javascript\" src=\"js/utils.js\"></script>";
@@ -32,7 +33,10 @@ class Main{
 	    echo "<link href=\"css/bootstrap.min.css\" rel=\"stylesheet\">";
 		$this->menu->linkCSS();
 		$this->section->linkCSS();
+		echo "<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->";
+	    echo "<script src=\"js/jquery.min.js\"></script>";
 		$this->section->linkJS();
+
 
 		echo "</head>";
 		echo "<body onload=".$this->menu->onLoadJS().$this->section->onLoadJS().">";
@@ -42,8 +46,7 @@ class Main{
 		$this->addTagMenu->draw();
 		
 		echo "<button onClick=\"hideMenu(this);\">Cacher les menus</button>";
-		echo "<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->";
-	    echo "<script src=\"js/jquery.min.js\"></script>";
+
 	    echo "<!-- Include all compiled plugins (below), or include individual files as needed -->";
 	    echo "<script src=\"js/bootstrap.min.js\"></script>";
 

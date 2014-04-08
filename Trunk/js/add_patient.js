@@ -22,3 +22,82 @@ function updatePatients(){
 	for(var i=0; i<tmp.length; i++)
 		tmp[i].selected = "selected";
 }
+
+$(document).ready(function() {
+    //jquery code here
+    $('#allPatients').change(function(){
+		$idPatient = $('#allPatients option:selected').val();
+
+		if($idPatient === null || $idPatient === "" ){
+        	$('#videoList :input').attr("disabled");
+		}
+		else{
+			$('#videoList :input').removeAttr("disabled");
+        	$.ajax({
+	            type: 'POST',
+	            url: 'srcPHP/Model/patientSelectedVideo.php',
+	            data: {
+	                id: $idPatient
+	            },
+	            success: function(data) {
+	            	$('input:checkbox').prop('checked', false);
+	            	for(var $i = 0; $i < data.length; $i++){
+	            		$('input[name='+ data[$i][0] +']').prop('checked', true);
+	            	}
+	            },
+	            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	                alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+	            },
+	            cache: false
+	        });
+		}
+	});
+
+	$('input:checkbox').mousedown(function() {
+		$idPatient = $('#allPatients option:selected').val();
+		$idVideo = $(this)[0].value;
+		console.dir($(this));
+
+		if($idPatient === null || $idPatient === "" ){
+        	$('#videoList :input').attr("disabled");
+		}
+		if($(this)[0].checked){
+			$.ajax({
+	            type: 'POST',
+	            url: 'srcPHP/Model/patientClearVideo.php',
+	            data: {
+	                idVideo: $idVideo
+	            },
+	            success: function(data) {
+
+	            },
+	            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+	                $(this).prop('checked', false);
+	                console.dir($idVideo);
+	            },
+	            cache: false
+	        });
+		}
+		else{
+        	$.ajax({
+	            type: 'POST',
+	            url: 'srcPHP/Model/patientAssignVideo.php',
+	            data: {
+	                idPatient: $idPatient,
+	                idVideo: $idVideo
+	            },
+	            success: function(data) {
+
+	            },
+	            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	                alert("Status: " + textStatus); alert("Error: " + errorThrown);
+	                $(this).prop('checked', false);
+	                console.dir($idVideo);
+	            },
+	            cache: false
+	        });
+		}
+	});
+        
+});

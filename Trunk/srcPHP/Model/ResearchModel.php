@@ -246,6 +246,21 @@ class ResearchModel extends Model{
 		return $allVideos;
 	}
 
+	function getCompleteVideoList(){
+		try
+		{
+			$res = $this->executeSQL("SELECT \"Video\".\"title\", \"Video\".\"idVideo\" FROM \"public\".\"Video\" ORDER BY \"Video\".\"title\";");
+			$tmp = array();
+			while($row = pg_fetch_row($res))
+				array_push($tmp, array("Title" => $row[0], "IdVideo" => $row[1]));
+			return $tmp;
+		}
+		catch(Exception $e)
+		{
+			echo $e->getMessage();
+		}
+	}
+
 	function getAllVideo(){
 		try
 		{
