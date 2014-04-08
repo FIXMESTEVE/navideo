@@ -29,7 +29,11 @@ catch(Exception $ex)
     <head>
         <meta charset="utf-8">
         <title>Test : Research (view)</title>
-        <?php $view->linkCSS(); ?>
+        <?php
+            $view->linkCSS();
+            $view->linkJS();
+        ?>
+        <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
     </head>
     <body>
         <h1>Rechercher une vidéo en fonction des méta-données</h1>
