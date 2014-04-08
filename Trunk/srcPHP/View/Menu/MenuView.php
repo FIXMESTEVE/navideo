@@ -1,17 +1,38 @@
 <?php
+
+/**
+ *\file		MenuView.php
+ *\author	Antoine Laumond, Romain Fontaine, Tom Solacroup, Xavier Jouvenot
+ *\version	2.0
+ *\date		08 Avril 2014
+ *\brief	Defini la classe principale de la vue des menu de cette application.
+ *
+ *\details	Cette classe permet de gerer les différents menus et d'afficher le bon, au bon moment
+ *			C'est la classe qui gère les divers états du menu.
+ */
 include_once "srcPHP/View/Menu/GuestMenu/GuestMenu.php";
 include_once "srcPHP/View/Menu/DoctorMenu/DoctorMenu.php";
 include_once "srcPHP/View/Menu/AdminMenu/AdminMenu.php";
 include_once "srcPHP/Model/ResearchModel.php";
 
 class MenuView implements View{
-
+	/* Variable */
 	var $context = NULL;
 
+	/**
+	 *\brief	Contructeur de la classe MenuView
+	 *\details	Fontion permettant d'instancier les variables de la classe MenuView et de statuer sur le menuà afficher
+	 *
+	 */
 	function MenuView(){
 		$this->isLogged();
 	}
 
+	/**
+	 *\brief	Fonction permettant de mettre à jour l'état du Menu
+	 *\details	Fontion permettant d'instancier les variables de la classe MenuView et de statuer sur le menuà afficher
+	 *
+	 */
 	function setContext(){
 		session_start();
 
