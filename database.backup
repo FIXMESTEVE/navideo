@@ -1,0 +1,540 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.1.13
+-- Dumped by pg_dump version 9.1.13
+-- Started on 2014-04-08 15:19:18 CEST
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- TOC entry 175 (class 3079 OID 11679)
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- TOC entry 1959 (class 0 OID 0)
+-- Dependencies: 175
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 161 (class 1259 OID 16387)
+-- Dependencies: 6
+-- Name: Admin; Type: TABLE; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+CREATE TABLE "Admin" (
+    "idAdmin" integer NOT NULL,
+    username character varying(10) NOT NULL,
+    password character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public."Admin" OWNER TO xjouveno;
+
+--
+-- TOC entry 162 (class 1259 OID 16390)
+-- Dependencies: 161 6
+-- Name: Admin_idAdmin_seq; Type: SEQUENCE; Schema: public; Owner: xjouveno
+--
+
+CREATE SEQUENCE "Admin_idAdmin_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Admin_idAdmin_seq" OWNER TO xjouveno;
+
+--
+-- TOC entry 1960 (class 0 OID 0)
+-- Dependencies: 162
+-- Name: Admin_idAdmin_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: xjouveno
+--
+
+ALTER SEQUENCE "Admin_idAdmin_seq" OWNED BY "Admin"."idAdmin";
+
+
+SET default_with_oids = true;
+
+--
+-- TOC entry 163 (class 1259 OID 16392)
+-- Dependencies: 6
+-- Name: Doctor; Type: TABLE; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+CREATE TABLE "Doctor" (
+    "idDoctor" integer NOT NULL,
+    name character varying(45),
+    username character varying(10) NOT NULL,
+    password character varying(10) NOT NULL
+);
+
+
+ALTER TABLE public."Doctor" OWNER TO xjouveno;
+
+--
+-- TOC entry 164 (class 1259 OID 16395)
+-- Dependencies: 6 163
+-- Name: Doctor_idDoctor_seq; Type: SEQUENCE; Schema: public; Owner: xjouveno
+--
+
+CREATE SEQUENCE "Doctor_idDoctor_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Doctor_idDoctor_seq" OWNER TO xjouveno;
+
+--
+-- TOC entry 1961 (class 0 OID 0)
+-- Dependencies: 164
+-- Name: Doctor_idDoctor_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: xjouveno
+--
+
+ALTER SEQUENCE "Doctor_idDoctor_seq" OWNED BY "Doctor"."idDoctor";
+
+
+--
+-- TOC entry 165 (class 1259 OID 16397)
+-- Dependencies: 6
+-- Name: Metadata; Type: TABLE; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+CREATE TABLE "Metadata" (
+    "idMetadata" integer NOT NULL,
+    "idVideo" integer NOT NULL,
+    title character varying(45) NOT NULL,
+    observation character varying,
+    "Probability" numeric NOT NULL
+);
+
+
+ALTER TABLE public."Metadata" OWNER TO xjouveno;
+
+--
+-- TOC entry 166 (class 1259 OID 16403)
+-- Dependencies: 165 6
+-- Name: Metadata_idMetadata_seq; Type: SEQUENCE; Schema: public; Owner: xjouveno
+--
+
+CREATE SEQUENCE "Metadata_idMetadata_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Metadata_idMetadata_seq" OWNER TO xjouveno;
+
+--
+-- TOC entry 1962 (class 0 OID 0)
+-- Dependencies: 166
+-- Name: Metadata_idMetadata_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: xjouveno
+--
+
+ALTER SEQUENCE "Metadata_idMetadata_seq" OWNED BY "Metadata"."idMetadata";
+
+
+--
+-- TOC entry 167 (class 1259 OID 16405)
+-- Dependencies: 165 6
+-- Name: Metadata_idVideo_seq; Type: SEQUENCE; Schema: public; Owner: xjouveno
+--
+
+CREATE SEQUENCE "Metadata_idVideo_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Metadata_idVideo_seq" OWNER TO xjouveno;
+
+--
+-- TOC entry 1963 (class 0 OID 0)
+-- Dependencies: 167
+-- Name: Metadata_idVideo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: xjouveno
+--
+
+ALTER SEQUENCE "Metadata_idVideo_seq" OWNED BY "Metadata"."idVideo";
+
+
+--
+-- TOC entry 168 (class 1259 OID 16407)
+-- Dependencies: 6
+-- Name: Patient; Type: TABLE; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+CREATE TABLE "Patient" (
+    "idPatient" integer NOT NULL,
+    name character varying(45)
+);
+
+
+ALTER TABLE public."Patient" OWNER TO xjouveno;
+
+--
+-- TOC entry 169 (class 1259 OID 16410)
+-- Dependencies: 168 6
+-- Name: Patient_idPatient_seq; Type: SEQUENCE; Schema: public; Owner: xjouveno
+--
+
+CREATE SEQUENCE "Patient_idPatient_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Patient_idPatient_seq" OWNER TO xjouveno;
+
+--
+-- TOC entry 1964 (class 0 OID 0)
+-- Dependencies: 169
+-- Name: Patient_idPatient_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: xjouveno
+--
+
+ALTER SEQUENCE "Patient_idPatient_seq" OWNED BY "Patient"."idPatient";
+
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 170 (class 1259 OID 16412)
+-- Dependencies: 6
+-- Name: Suivre; Type: TABLE; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+CREATE TABLE "Suivre" (
+    "idDoctor" integer NOT NULL,
+    "idPatient" integer NOT NULL
+);
+
+
+ALTER TABLE public."Suivre" OWNER TO xjouveno;
+
+--
+-- TOC entry 171 (class 1259 OID 16415)
+-- Dependencies: 6
+-- Name: Tagger; Type: TABLE; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+CREATE TABLE "Tagger" (
+    "idMetadata" integer NOT NULL,
+    "idVideo" integer NOT NULL,
+    start time without time zone NOT NULL,
+    "end" time without time zone NOT NULL
+);
+
+
+ALTER TABLE public."Tagger" OWNER TO xjouveno;
+
+SET default_with_oids = true;
+
+--
+-- TOC entry 172 (class 1259 OID 16418)
+-- Dependencies: 6
+-- Name: Video; Type: TABLE; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+CREATE TABLE "Video" (
+    "idVideo" integer NOT NULL,
+    "idPatient" integer,
+    filename character varying(45) NOT NULL,
+    title character varying(45) NOT NULL
+);
+
+
+ALTER TABLE public."Video" OWNER TO xjouveno;
+
+--
+-- TOC entry 173 (class 1259 OID 16421)
+-- Dependencies: 6 172
+-- Name: Video2_idPatient_seq; Type: SEQUENCE; Schema: public; Owner: xjouveno
+--
+
+CREATE SEQUENCE "Video2_idPatient_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Video2_idPatient_seq" OWNER TO xjouveno;
+
+--
+-- TOC entry 1965 (class 0 OID 0)
+-- Dependencies: 173
+-- Name: Video2_idPatient_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: xjouveno
+--
+
+ALTER SEQUENCE "Video2_idPatient_seq" OWNED BY "Video"."idPatient";
+
+
+--
+-- TOC entry 174 (class 1259 OID 16423)
+-- Dependencies: 6 172
+-- Name: Video2_idVideo_seq; Type: SEQUENCE; Schema: public; Owner: xjouveno
+--
+
+CREATE SEQUENCE "Video2_idVideo_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."Video2_idVideo_seq" OWNER TO xjouveno;
+
+--
+-- TOC entry 1966 (class 0 OID 0)
+-- Dependencies: 174
+-- Name: Video2_idVideo_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: xjouveno
+--
+
+ALTER SEQUENCE "Video2_idVideo_seq" OWNED BY "Video"."idVideo";
+
+
+--
+-- TOC entry 1822 (class 2604 OID 16425)
+-- Dependencies: 162 161
+-- Name: idAdmin; Type: DEFAULT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Admin" ALTER COLUMN "idAdmin" SET DEFAULT nextval('"Admin_idAdmin_seq"'::regclass);
+
+
+--
+-- TOC entry 1823 (class 2604 OID 16426)
+-- Dependencies: 164 163
+-- Name: idDoctor; Type: DEFAULT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Doctor" ALTER COLUMN "idDoctor" SET DEFAULT nextval('"Doctor_idDoctor_seq"'::regclass);
+
+
+--
+-- TOC entry 1824 (class 2604 OID 16427)
+-- Dependencies: 166 165
+-- Name: idMetadata; Type: DEFAULT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Metadata" ALTER COLUMN "idMetadata" SET DEFAULT nextval('"Metadata_idMetadata_seq"'::regclass);
+
+
+--
+-- TOC entry 1825 (class 2604 OID 16428)
+-- Dependencies: 169 168
+-- Name: idPatient; Type: DEFAULT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Patient" ALTER COLUMN "idPatient" SET DEFAULT nextval('"Patient_idPatient_seq"'::regclass);
+
+
+--
+-- TOC entry 1826 (class 2604 OID 16429)
+-- Dependencies: 174 172
+-- Name: idVideo; Type: DEFAULT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Video" ALTER COLUMN "idVideo" SET DEFAULT nextval('"Video2_idVideo_seq"'::regclass);
+
+
+--
+-- TOC entry 1828 (class 2606 OID 16484)
+-- Dependencies: 161 161 1953
+-- Name: Admin_pkey; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Admin"
+    ADD CONSTRAINT "Admin_pkey" PRIMARY KEY ("idAdmin");
+
+
+--
+-- TOC entry 1838 (class 2606 OID 16486)
+-- Dependencies: 170 170 170 1953
+-- Name: Suivre_pkey; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Suivre"
+    ADD CONSTRAINT "Suivre_pkey" PRIMARY KEY ("idDoctor", "idPatient");
+
+
+--
+-- TOC entry 1840 (class 2606 OID 16488)
+-- Dependencies: 171 171 171 171 1953
+-- Name: Tagger_pkey; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Tagger"
+    ADD CONSTRAINT "Tagger_pkey" PRIMARY KEY ("idMetadata", "idVideo", start);
+
+
+--
+-- TOC entry 1830 (class 2606 OID 16490)
+-- Dependencies: 163 163 1953
+-- Name: doctor_primary_key; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Doctor"
+    ADD CONSTRAINT doctor_primary_key PRIMARY KEY ("idDoctor");
+
+
+--
+-- TOC entry 1834 (class 2606 OID 16492)
+-- Dependencies: 165 165 1953
+-- Name: metadata_primary_key; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Metadata"
+    ADD CONSTRAINT metadata_primary_key PRIMARY KEY ("idMetadata");
+
+
+--
+-- TOC entry 1836 (class 2606 OID 16494)
+-- Dependencies: 168 168 1953
+-- Name: patient_primary_key; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Patient"
+    ADD CONSTRAINT patient_primary_key PRIMARY KEY ("idPatient");
+
+
+--
+-- TOC entry 1842 (class 2606 OID 16496)
+-- Dependencies: 172 172 1953
+-- Name: unicity_filename; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Video"
+    ADD CONSTRAINT unicity_filename UNIQUE (filename);
+
+
+--
+-- TOC entry 1832 (class 2606 OID 16498)
+-- Dependencies: 163 163 1953
+-- Name: unicity_username; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Doctor"
+    ADD CONSTRAINT unicity_username UNIQUE (username);
+
+
+--
+-- TOC entry 1844 (class 2606 OID 16500)
+-- Dependencies: 172 172 1953
+-- Name: video_primary_key; Type: CONSTRAINT; Schema: public; Owner: xjouveno; Tablespace: 
+--
+
+ALTER TABLE ONLY "Video"
+    ADD CONSTRAINT video_primary_key PRIMARY KEY ("idVideo");
+
+
+--
+-- TOC entry 1846 (class 2606 OID 16501)
+-- Dependencies: 170 163 1829 1953
+-- Name: Suivre_idDoctor_fkey; Type: FK CONSTRAINT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Suivre"
+    ADD CONSTRAINT "Suivre_idDoctor_fkey" FOREIGN KEY ("idDoctor") REFERENCES "Doctor"("idDoctor");
+
+
+--
+-- TOC entry 1847 (class 2606 OID 16506)
+-- Dependencies: 168 170 1835 1953
+-- Name: Suivre_idPatient_fkey; Type: FK CONSTRAINT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Suivre"
+    ADD CONSTRAINT "Suivre_idPatient_fkey" FOREIGN KEY ("idPatient") REFERENCES "Patient"("idPatient");
+
+
+--
+-- TOC entry 1848 (class 2606 OID 16511)
+-- Dependencies: 165 1833 171 1953
+-- Name: Tagger_idMetadata_fkey; Type: FK CONSTRAINT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Tagger"
+    ADD CONSTRAINT "Tagger_idMetadata_fkey" FOREIGN KEY ("idMetadata") REFERENCES "Metadata"("idMetadata");
+
+
+--
+-- TOC entry 1849 (class 2606 OID 16516)
+-- Dependencies: 172 171 1843 1953
+-- Name: Tagger_idVideo_fkey; Type: FK CONSTRAINT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Tagger"
+    ADD CONSTRAINT "Tagger_idVideo_fkey" FOREIGN KEY ("idVideo") REFERENCES "Video"("idVideo");
+
+
+--
+-- TOC entry 1845 (class 2606 OID 16521)
+-- Dependencies: 165 172 1843 1953
+-- Name: metadata_foreign_key; Type: FK CONSTRAINT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Metadata"
+    ADD CONSTRAINT metadata_foreign_key FOREIGN KEY ("idVideo") REFERENCES "Video"("idVideo") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- TOC entry 1850 (class 2606 OID 16564)
+-- Dependencies: 168 1835 172 1953
+-- Name: video_foreign_key; Type: FK CONSTRAINT; Schema: public; Owner: xjouveno
+--
+
+ALTER TABLE ONLY "Video"
+    ADD CONSTRAINT video_foreign_key FOREIGN KEY ("idPatient") REFERENCES "Patient"("idPatient") ON UPDATE CASCADE;
+
+
+--
+-- TOC entry 1958 (class 0 OID 0)
+-- Dependencies: 6
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO xjouveno;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2014-04-08 15:19:18 CEST
+
+--
+-- PostgreSQL database dump complete
+--
+

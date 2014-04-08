@@ -41,6 +41,7 @@ class GuestMenu implements MenuInterface{
 		echo "<nav>";
 		echo "<a class='btn btn-default' href=\"index.php\" ><span class='glyphicon glyphicon-th'></span>Mosaique</a>";
 		echo "<a class='btn btn-default' href=\"index.php?form=add_doctor\"> <span class='glyphicon glyphicon-user'></span>Creer un nouveau compte</a>";
+		echo "<a class='btn btn-default' href=\"modules/jQuery-File-Upload\" ><span class='glyphicon glyphicon-upload'></span>Upload</a>";
 		echo "</nav>";
 	}
 }

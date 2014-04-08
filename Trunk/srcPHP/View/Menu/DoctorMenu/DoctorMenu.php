@@ -49,6 +49,7 @@ class DoctorMenu implements MenuInterface{
 		echo "<a class=\"btn btn-default\" href=\"index.php\"><span class='glyphicon glyphicon-list'></span><label>Patients et visionnage</label></a>";
 		echo "<a class='btn btn-default' href=\"index.php?section=mosaic\"><span class='glyphicon glyphicon-th'></span><label>Mosaique</label></a>";
 		echo "<a class='btn btn-default' href=\"index.php?form=manage_patient\"><span class='glyphicon glyphicon-wrench'></span><label>Gestion des Patients</label></a>";
+		echo "<a class='btn btn-default' href=\"modules/jQuery-File-Upload\" ><span class='glyphicon glyphicon-upload'></span>Upload</a>";
 		echo "</nav>";
 	}
 }
