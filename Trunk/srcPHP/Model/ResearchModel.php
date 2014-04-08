@@ -83,6 +83,24 @@ class ResearchModel extends Model{
 		}
 	}
 
+	function getListOfAllPatients(){
+		try{
+			
+			$res = $this->executeSQL("SELECT \"idPatient\", \"name\" FROM \"public\".\"Patient\";");
+			if(pg_num_rows($res) > 0){
+				$tmp = array();
+				while($row = pg_fetch_row($res))
+					array_push($tmp, array("Id" => $row[0], "Name" => $row[1]));
+				return $tmp;
+			}
+			else
+				throw new Exception ("ERREUR - Fonction getListOfAllPatients - Aucun patient");
+		} catch(Exception $e){
+			echo $e->getMessage();
+			return NULL;
+		}
+	}
+
 	/**
 	 * Find all metadatas matching with video id.
 	 * @param $videoId this is the id of the video
