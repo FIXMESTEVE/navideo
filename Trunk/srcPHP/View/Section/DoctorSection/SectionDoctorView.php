@@ -36,6 +36,8 @@ class SectionDoctorView implements InterfaceSectionView{
 			$this->context = new Mosaic();
 		else if(isset($_GET) && isset($_GET["form"]) && $_GET["form"] == "sendXML")
 			$this->context = new SendXML("index.php");
+		else if(isset($_GET) && isset($_GET["play"]) && isset($_GET["patient"]))
+			$this->context = new ListPatientView($this->id_doctor);
 		else if(isset($_GET) && isset($_GET["play"]))
 			$this->context = new PlayerView($_GET["play"]);
 		else
