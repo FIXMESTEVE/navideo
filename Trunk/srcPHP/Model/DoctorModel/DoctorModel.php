@@ -66,5 +66,37 @@ class DoctorModel extends Model{
 		}
 	}
 
+	function deleteMetadataOfVideo($id_video){
+		try{
+			if(is_numeric($id_video))
+				$this->executeSQL("DELETE FROM \"public\".\"Tagger\" WHERE \"idVideo\" = ".$id_video." ;");
+			else
+				throw new Exception("ERREUR - Fonction deleteMetadataOfVideo(...) - Verifier les types des parametres");
+		} catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
+	function uploadMetadata($id_video, $title, $observation, $start, $end, $proba){
+		try{
+			if(is_numeric($id_video) && is_string($title) && is_string($observation)){
+				$res = $this->executeSQL("SELECT \"idMetadata\" FROM \"public\".\"Metadata\" WHERE \"title\" = '".$title."'; ");
+				if(pg_num_rows($res) == 0){
+					$this->executeSQL("INSERT INTO \"public\".\"Metadata\" (\"title\", \"observation\", \"Probability\") VALUES ('".$title."', '".$observation."', ".$proba.");");
+					$res = $this->executeSQL("SELECT \"idMetadata\" FROM \"public\".\"Metadata\" WHERE \"title\" = '".$title."'; ");
+				}
+
+				if($row = pg_fetch_row($res))
+					$this->executeSQL("INSERT INTO \"public\".\"Tagger\" (\"idMetadata\", \"idVideo\", \"start\", \"end\") VALUES (".$row[0].", ".$id_video.", '".$start."', '".$end."');");
+				else
+					throw new Exception("ERREUR - Fonction uploadMetadata(...) - Metadonnee impossible a trouver");
+			}
+			else
+				throw new Exception("ERREUR - Fonction uploadMetadata(...) - Verifier les types des parametres");
+		}catch(Exception $e){
+			echo $e->getMessage();
+		}
+	}
+
 }
 ?>

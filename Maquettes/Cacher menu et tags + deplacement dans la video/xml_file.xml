@@ -1,54 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <INFOS>
-	<ACTION>
+	<METADATA>
+		<TITLE>
+			trolldance
+		</TITLE>
 		<OBSERVATION>
 			Observation 1
 		</OBSERVATION>
-		<DEPART>
-			0
-		</DEPART>
-		<FIN>
-			60
-		</FIN>
-		<NOM>
-			trolldance
-		</NOM>
+		<START>
+			00:00:00
+		</START>
+		<END>
+			00:01:00
+		</END>
 		<PROBA>
 			1
 		</PROBA>
-	</ACTION>
-	<ACTION>
+	</METADATA>
+	<METADATA>
+		<TITLE>
+			trolldance
+		</TITLE>
 		<OBSERVATION>
 			Observation 2
 		</OBSERVATION>
-		<DEPART>
-			60
-		</DEPART>
-		<FIN>
-			100
-		</FIN>
-		<NOM>
-			trolldance
-		</NOM>
+		<START>
+			00:01:00
+		</START>
+		<END>
+			00:01:40
+		</END>
 		<PROBA>
 			1
 		</PROBA>
-	</ACTION>
-	<ACTION>
+	</METADATA>
+	<METADATA>
+		<TITLE>
+			trolldance
+		</TITLE>
 		<OBSERVATION>
 			Observation 3
 		</OBSERVATION>
-		<DEPART>
-			100
-		</DEPART>
-		<FIN>
-			162
-		</FIN>
-		<NOM>
-			trolldance
-		</NOM>
+		<START>
+			00:01:40
+		</START>
+		<END>
+			00:02:02
+		</END>
 		<PROBA>
 			1
 		</PROBA>
-	</ACTION>
+	</METADATA>
 </INFOS>
+ 

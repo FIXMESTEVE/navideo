@@ -51,7 +51,7 @@ class ListPatientView implements View{
 						echo "<ul id=\"VideoList\" type=none>";
 						for($j=0; $j<count($this->videoList); $j++){
 //							echo "<li onclick=\"showVideo(".$_GET["patient"].",'".$this->videoList[$j]["Filename"]."');\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\">".$this->videoList[$j]["Title"]."</li>";
-							echo "<li><span onclick=\"showVideo(".$_GET["patient"].",'".$this->videoList[$j]["Filename"]."');\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\"><label>".$this->videoList[$j]["Title"]."</label></span><a href=\"index.php?section=sendXML&video=".$this->videoList[$j]["Id"]."\" ><img src=\"azer\"/></a></li>";
+							echo "<li><span onclick=\"showVideo(".$_GET["patient"].",'".$this->videoList[$j]["Filename"]."');\" onmouseover=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\"><label>".$this->videoList[$j]["Title"]."</label></span><a href=\"index.php?form=sendXML&video=".$this->videoList[$j]["Id"]."\" ><img src=\"azer\"/></a></li>";
 						}
 						echo "</ul>";
 					}
