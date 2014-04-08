@@ -46,7 +46,7 @@ class ListPatientView implements View{
 		echo "<nav id=\"ListOfPatients\">";
 		echo "<label>Vos Patients</label>";
 		if(count($this->patientList) > 0){
-			echo "<ul id=\"PatientList\">";
+			echo "<ul id=\"PatientList\" type=none;>";
 			for($i=0; $i<count($this->patientList); $i++){
 				echo "<li onclick=\"showVideoOfPatient(".$this->patientList[$i]["Id"].")\" onmouseOver=\"onMouseOver(this);\" onmouseout=\"onMouseOut(this);\">".$this->patientList[$i]["Name"]."</li>";
 				if(isset($_GET) && isset($_GET["patient"]) && !empty($_GET["patient"]) && is_numeric($_GET["patient"]) && $this->patientList[$i]["Id"] == $_GET["patient"]){

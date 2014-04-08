@@ -1,4 +1,14 @@
 <?php
+/**
+ *\file		AdminMenu.php
+ *\author	Antoine Laumond, Romain Fontaine, Tom Solacroup, Xavier Jouvenot
+ *\version	2.0
+ *\date		08 Avril 2014
+ *\brief	Defini la classe de la vue du menu des Administrateurs de cette application.
+ *
+ *\details	Cette classe permet de gerer les différents menus et d'afficher le bon, au bon moment
+ *			C'est la classe qui gère les divers états du menu.
+ */
 include_once "srcPHP/View/Menu/MenuInterface.php";
 
 class AdminMenu implements MenuInterface{
