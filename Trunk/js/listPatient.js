@@ -3,7 +3,6 @@ function adaptCSSSection(){
 	var tmp = document.getElementsByTagName("VIDEO")[0].offsetHeight;
 	document.getElementById("ListOfPatients").style.height = tmp+'px';
 
-//	var tmp = document.getElementsByTagName("VIDEO")[0].bottom;
 	document.getElementById("ListOfPatients").getElementsByTagName("UL")[0].style.height = '96%';
 }
 
@@ -11,6 +10,6 @@ function showVideoOfPatient(id){
 	window.location.href = 'index.php?patient='+id;
 }
 
-function showVideo(id, filename){
-	window.location.href = 'index.php?patient='+id+'&filname='+filename;
+function showVideo(id_patient, id_video){
+	window.location.href = 'index.php?patient='+id_patient+'&play='+id_video;
 }

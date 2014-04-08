@@ -51,8 +51,8 @@ class ResearchModel extends Model{
 						array_push($tmp, array("Id" => $row[0], "Name" => $row[1]));
 					return $tmp;
 				}
-				else
-					throw new Exception ("ERREUR - Fonction getDoctor(...) - Aucun Patient lies a ce Docteur");
+//				else
+//					throw new Exception ("ERREUR - Fonction getDoctor(...) - Aucun Patient lies a ce Docteur");
 			}
 			else
 				throw new Exception("ERREUR - Fonction getListOfPatient(...) - Verifier les types des parametres");

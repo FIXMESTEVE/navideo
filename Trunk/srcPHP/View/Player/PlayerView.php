@@ -7,6 +7,7 @@ class PlayerView implements View{
 	var $video = NULL;
 	var $tags = NULL;
 	var $start = NULL;
+	var $id = NULL;
 
 	function PlayerView($id=8, $start=0){
 		try{
@@ -14,6 +15,7 @@ class PlayerView implements View{
 				$this->video = new VideoView($id);
 				$this->tags = new TagMenuView($id);
 				$this->start = $start;
+				$this->id = $id;
 			}
 			else
 				throw new Exception("ERREUR - Fonction PlayerView(...) - Verifier les types des parametres");
@@ -41,6 +43,7 @@ class PlayerView implements View{
 		$this->video->draw();
 		$this->tags->draw();
 		echo "</section>";
+		echo "<button onclick=\"window.location.href='index.php?form=sendXML&video=".$this->id."';\">edit XML</button>";
 	}
 }
 ?>

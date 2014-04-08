@@ -1,6 +1,7 @@
 <?php
 include_once "srcPHP/View/Menu/MenuInterface.php";
 include_once "srcPHP/View/Form/GuestForm/Connection.php";
+include_once "srcPHP/View/Form/GuestForm/AddDoctor.php";
 
 class GuestMenu implements MenuInterface{
 
@@ -29,8 +30,8 @@ class GuestMenu implements MenuInterface{
 		$this->formConnection->draw();
 		echo "</header>";
 		echo "<nav>";
-		echo "<a href=\"index.php\" class=\"btn btn-default\" >Mosaique</a>";
-		echo "<a href=\"modules/jQuery-File-Upload\" class=\"btn btn-default\" >Upload</a>";
+		echo "<a href=\"index.php\" >Mosaique</a>";
+		echo "<a href=\"index.php?form=add_doctor\">Creer un nouveau compte</a>";
 		echo "</nav>";
 	}
 }
