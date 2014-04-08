@@ -13,7 +13,7 @@ class SectionGuestView implements InterfaceSectionView{
 
 	function setContext(){
 		if(isset($_GET) && isset($_GET["play"]))
-			$this->context = new PlayerView();
+			$this->context = new PlayerView($_GET["play"]);
 		else
 			$this->context = new Mosaic();
 	}

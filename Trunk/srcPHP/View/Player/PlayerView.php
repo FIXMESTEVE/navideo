@@ -8,11 +8,11 @@ class PlayerView implements View{
 	var $tags = NULL;
 	var $start = NULL;
 
-	function PlayerView($filename="data/video.mp4", $start=0){
+	function PlayerView($id=8, $start=0){
 		try{
-			if(is_string($filename) && is_numeric($start)){
-				$this->video = new VideoView($filename);
-				$this->tags = new TagMenuView();
+			if(is_numeric($id) && is_numeric($start)){
+				$this->video = new VideoView($id);
+				$this->tags = new TagMenuView($id);
 				$this->start = $start;
 			}
 			else

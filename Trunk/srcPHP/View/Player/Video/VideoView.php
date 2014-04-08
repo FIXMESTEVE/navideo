@@ -1,14 +1,18 @@
 <?php
 include_once "srcPHP/View/View.php";
+include_once "srcPHP/Model/ResearchModel.php";
+
 
 class VideoView implements View{
 
 	var $filename;
 
-	function VideoView($filename="data/video.mp4"){
+	function VideoView($id){
 		try{
-			if(is_string($filename))
-				$this->filename = $filename;
+			if(is_numeric($id)){
+				$tmp = new ResearchModel("dbserver", "xjouveno", "xjouveno", "pdp");
+				$this->filename = $tmp->getFilenameVideo($id);
+			}
 			else
 				throw new Exception("ERREUR - Fonction VideoView(...) - Verifier les types des parametres");
 		} catch(Exception $e){

@@ -9,7 +9,7 @@ class TagMenuView implements View {
 	var $tagsByTime = NULL;
 	var $tagsByTitle = NULL;
 
-	function TagMenuView($id_video=10) {
+	function TagMenuView($id_video) {
 		try{
 			if(!is_numeric($id_video))
 				throw new Exception("TagMenuView(...) - Vérifiez le type des paramètres");
