@@ -10,7 +10,7 @@
  */
 
 /* global $, window */
-var titleNumber = 0;
+
 
 $(function () {
     'use strict';
@@ -51,6 +51,8 @@ $(function () {
     }).done(function (result) {
         $(this).fileupload('option', 'done')
             .call(this, $.Event('done'), {result: result});
+
+        console.dir(result);
     });
 
     
@@ -67,7 +69,7 @@ $(function () {
             var node = $('<td/>')
             .append('<br /><strong>Title:</strong> <input type="text" name="title" value="">');
             node.appendTo(data.context);
-            titleNumber++;
+
 
             node = $(data.context.children()[index]);
             node
@@ -107,6 +109,7 @@ $(function () {
             return false;
         }
         data.formData = inputs.serializeArray();
+        $('a[title="'+ data.result.files[0].name +'"]').after('<br /><strong>Title:</strong> <input type="text" name="title" value="">');
 
         $.ajax({
             type: 'POST',
@@ -116,12 +119,64 @@ $(function () {
                 title: data.formData[0].value
             },
             success: function(data) {
+                
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) { 
                 alert("Status: " + textStatus); alert("Error: " + errorThrown); 
             },
             cache: false
         });
+    });
+
+    function sendNewTitle(event){
+        console.dir(event);
+        if($('input[title="'+ event.data.filename +'"]').val() === null || $('input[title="'+ event.data.filename +'"]').val() === ""){
+            $('button[name="'+ event.data.filename +'"]').after("<p name='error'>Title required.</p>");
+            $('[name=error]').fadeOut(1000);
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: 'server/php/modifyVideoTitle.php',
+            data: {
+                filename: event.data.filename,
+                title: $('input[title="'+ event.data.filename +'"]').val()
+            },
+            success: function(data) {
+                $('button[name="'+ event.data.filename +'"]').after("<p name='success'>Title changed.</p>");
+                $('[name=success]').css('color', 'green');
+                $('[name=success]').fadeOut(1000);
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+            },
+            cache: false
+        });
+    }
+
+    $('#fileupload').bind('fileuploadcompleted', function (e, data) {
+        //for each file retrieved, make an sql query to retrieve the titles.
+        console.dir(data);
+        for(var i = 0; i < data.result.files.length; i++ ){
+            
+            $.ajax({
+                type: 'POST',
+                url: 'server/php/retrieveVideoTitle.php',
+                data: {
+                    filename: data.result.files[i].name
+                },
+                success: function(data) {
+                    console.dir(data);
+                    $('a[title="'+ data.filename +'"]').after(
+                        '<br /><strong>Title:</strong> <input type="text" name="title" title="'+ data.filename +'" value="'+ data.title +'"><button type="button" name="'+ data.filename +'">Modify</button>');
+                        $('button[name="'+ data.filename +'"]' ).on('click', {filename: data.filename},sendNewTitle);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+                },
+                cache: false
+            });
+        }
     });
 
     $('#fileupload').bind('fileuploaddestroyed', function (e, data){
