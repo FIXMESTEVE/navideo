@@ -16,10 +16,15 @@ Le compte serveur doit posséder les droits d'écritures sur modules/jQuery-File
 Attention: PostgreSQL utilise la locale du systéme pour l'encodage par défaut (et c'est irréversible!). Cela ne pose pas de probléme si la langue du systéme est réglé sur français, mais dans les autres cas il y aura des incompatibilités avec les accents.
 Pour changer l'encodage il faut donc réinitialiser PostgreSQL avec la locale française fr_FR.UTF8 via les commandes suivantes:
  dpkg-reconfigure locales
+ 
  /etc/init.d/postgresql stop
+ 
  rm -rf /var/lib/postgresql/9.1/
+ 
  rm -rf /etc/postgresql/9.1/
+ 
  LANG=fr_FR.UTF8 pg_createcluster 9.1 main
+ 
  /etc/init.d/postgresql start
 
 Pour valider ces opérations, on vérifiera notamment qu'un select upper('é') renvoie bien une majuscule accentuée.
